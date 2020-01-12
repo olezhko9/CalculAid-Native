@@ -1,7 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 
-import {List, Divider, IconButton, Text, Chip, Button} from 'react-native-paper';
+import {List, Divider, Text, Chip, Button} from 'react-native-paper';
 import { StyleSheet, FlatList, View } from 'react-native';
 
 
