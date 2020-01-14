@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {createAppContainer, } from 'react-navigation';
+import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
 
@@ -9,6 +9,19 @@ import CalcButton from './components/CalcButton';
 import Diary from './screens/Diary';
 import Profile from './screens/Profile';
 import Calculator from './screens/Calculator';
+import DetailedSpeechProduct from './screens/DetailedSpeechProduct';
+
+
+const CalculatorStackNavigator = createStackNavigator(
+  {
+    CalculatorStack: {
+      screen: Calculator
+    },
+    DetailedSpeechProduct: {
+      screen: DetailedSpeechProduct
+    }
+  }
+)
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -19,7 +32,7 @@ const TabNavigator = createBottomTabNavigator(
       }
     },
     Calculator: {
-      screen: Calculator,
+      screen: CalculatorStackNavigator,
       navigationOptions: {
         tabBarIcon: <CalcButton />,
       }

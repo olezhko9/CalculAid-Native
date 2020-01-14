@@ -6,6 +6,10 @@ import {StyleSheet, FlatList, View} from 'react-native';
 
 
 export default class Calculator extends React.Component {
+  static navigationOptions = {
+    headerShown: false
+  }
+
   state = {
     products: [],
     speech: 'Я съел 2 куска ржаного хлеба еще я съел десять чайных ложек варенного риса а еще выпил двести миллилитров апельсинного сока и еще выпил стакан козьего молока а еще я съел одно яблоко',
@@ -19,15 +23,14 @@ export default class Calculator extends React.Component {
       this.setState({
         products: response.data,
       });
-      console.log(response.data);
     } catch (e) {
       console.log(e);
     }
   }
 
   render() {
+    const { navigate } = this.props.navigation;
     const products = this.state.products;
-    console.log(products);
     return (
       <View>
         <Button icon={'microphone'} mode={'contained'} onPress={this.getData.bind(this)}>Рассказать</Button>
@@ -59,7 +62,7 @@ export default class Calculator extends React.Component {
               )}
               right={props => (
                 <View style={[styles.column, {justifyContent: 'center'}]}>
-                  <Button onPress={() => console.log('Pressed')}>
+                  <Button onPress={() => navigate('DetailedSpeechProduct', {product: item.products[0]})}>
                     Сменить
                   </Button>
                 </View>
