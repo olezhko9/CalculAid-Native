@@ -1,38 +1,42 @@
-import * as React from 'react';
-import { BottomNavigation, Text } from 'react-native-paper';
-import Tab1 from './components/Tab1';
+import React, {Component} from 'react';
+import {createAppContainer, } from 'react-navigation';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
+import {createStackNavigator} from 'react-navigation-stack';
 
-// const calculatorRoute = () => <Text>calculator</Text>;
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import CalcButton from './components/CalcButton';
 
-const AlbumsRoute = () => <Text>Albums</Text>;
+import Diary from './screens/Diary';
+import Profile from './screens/Profile';
+import Calculator from './screens/Calculator';
 
-const RecentsRoute = () => <Text>Recents</Text>;
-
-export default class MyComponent extends React.Component {
-  state = {
-    index: 0,
-    routes: [
-      { key: 'calculator', title: 'Калькулятор', icon: 'calculator' },
-      { key: 'albums', title: 'Дневник', icon: 'book' },
-      { key: 'recents', title: 'Статистика', icon: 'chart-bar' },
-    ]
-  };
-
-  _handleIndexChange = index => this.setState({ index });
-
-  _renderScene = BottomNavigation.SceneMap({
-    calculator: Tab1,
-    albums: AlbumsRoute,
-    recents: RecentsRoute,
-  });
-
-  render() {
-    return (
-      <BottomNavigation
-        navigationState={this.state}
-        onIndexChange={this._handleIndexChange}
-        renderScene={this._renderScene}
-      />
-    );
+const TabNavigator = createBottomTabNavigator(
+  {
+    Diary: {
+      screen: Diary,
+      navigationOptions: {
+        tabBarIcon: () => <Icon name={'book'} size={24}/>
+      }
+    },
+    Calculator: {
+      screen: Calculator,
+      navigationOptions: {
+        tabBarIcon: <CalcButton />,
+      }
+    },
+    Profile: {
+      screen: Profile,
+      navigationOptions: {
+        tabBarIcon: () => <Icon name={'user'} size={24}/>
+      }
+    },
+  },
+  {
+    tabBarOptions: {
+      showLabel: false
+    }
   }
-}
+)
+
+export default createAppContainer(TabNavigator);
+

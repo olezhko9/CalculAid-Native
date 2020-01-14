@@ -2,35 +2,36 @@ import * as React from 'react';
 import axios from 'axios';
 
 import {List, Divider, Text, Chip, Button} from 'react-native-paper';
-import { StyleSheet, FlatList, View } from 'react-native';
+import {StyleSheet, FlatList, View} from 'react-native';
 
 
-export default class Tab1 extends React.Component {
+export default class Calculator extends React.Component {
   state = {
     products: [],
-    speech: "Я съел 2 куска ржаного хлеба еще я съел десять чайных ложек варенного риса а еще выпил двести миллилитров апельсинного сока и еще выпил стакан козьего молока а еще я съел одно яблоко"
-  }
-
-  componentDidMount() {
-    this.getData()
-  }
+    speech: 'Я съел 2 куска ржаного хлеба еще я съел десять чайных ложек варенного риса а еще выпил двести миллилитров апельсинного сока и еще выпил стакан козьего молока а еще я съел одно яблоко',
+  };
 
   async getData() {
     try {
       const response = (await axios.post('http://194.87.101.20:3000/api/products', {
-        speech: this.state.speech
-      })).data
+        speech: this.state.speech,
+      })).data;
       this.setState({
-        products: response.data
-      })
+        products: response.data,
+      });
+      console.log(response.data);
     } catch (e) {
       console.log(e);
     }
   }
 
   render() {
-    if (this.state.products.length) {
-      return (
+    const products = this.state.products;
+    console.log(products);
+    return (
+      <View>
+        <Button icon={'microphone'} mode={'contained'} onPress={this.getData.bind(this)}>Рассказать</Button>
+        {!!products.length &&
         <FlatList
           ItemSeparatorComponent={Divider}
           renderItem={({item}) => (
@@ -40,10 +41,10 @@ export default class Tab1 extends React.Component {
               titleStyle={{fontWeight: 'bold', fontSize: 18}}
               description={() => (
                 <View>
-                  <View style={[styles.row, { paddingTop: 8 }]}>
+                  <View style={[styles.row, {paddingTop: 8}]}>
                     <Text>{`Количество: ${item.amount} ${item.products[0].measures[0].name}`}</Text>
                   </View>
-                  <View style={[styles.row, { paddingTop: 8 }]}>
+                  <View style={[styles.row, {paddingTop: 8}]}>
                     <Chip style={[styles.chip]}>
                       {`Б: ${item.products[0].pfc.p}`}
                     </Chip>
@@ -68,22 +69,21 @@ export default class Tab1 extends React.Component {
           keyExtractor={(item) => item.products[0].id.toString()}
           data={this.state.products}
         />
-      )
-    }
-
-    return null;
+        }
+      </View>
+    );
   }
 }
 
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   column: {
     flexDirection: 'column',
   },
   chip: {
-    marginRight: 16
-  }
+    marginRight: 16,
+  },
 });
