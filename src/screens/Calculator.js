@@ -1,4 +1,6 @@
 import * as React from 'react';
+import {connect} from 'react-redux';
+import {speechProductsFetched} from '../store/actions';
 import axios from 'axios';
 
 import {
@@ -14,13 +16,12 @@ import {StyleSheet, FlatList, View} from 'react-native';
 
 import appStyles from '../styles/main';
 
-export default class Calculator extends React.Component {
+class Calculator extends React.Component {
   static navigationOptions = {
     headerShown: false,
   };
 
   state = {
-    products: [],
     loading: false,
     speech:
       'Я съел 2 куска ржаного хлеба еще я съел десять чайных ложек варенного риса а еще выпил двести миллилитров апельсинного сока и еще выпил стакан козьего молока а еще я съел одно яблоко',
@@ -39,9 +40,7 @@ export default class Calculator extends React.Component {
           speech: this.state.speech,
         },
       )).data;
-      this.setState({
-        products: response.data,
-      });
+      this.props.speechProductsFetched(response.data);
     } catch (e) {
       console.log(e);
     }
@@ -50,7 +49,7 @@ export default class Calculator extends React.Component {
 
   render() {
     const {navigate} = this.props.navigation;
-    const products = this.state.products;
+    const {productsInSpeech} = this.props;
     return (
       <View style={appStyles.stackLayout}>
         <Button
@@ -65,12 +64,12 @@ export default class Calculator extends React.Component {
             color={Colors.red800}
           />
         )}
-        {!!products.length && (
+        {!!productsInSpeech.length && (
           <FlatList
             style={{paddingTop: 10}}
             ItemSeparatorComponent={Divider}
             keyExtractor={item => item.products[0].id.toString()}
-            data={this.state.products}
+            data={productsInSpeech}
             renderItem={({item}) => (
               <List.Item
                 title={
@@ -130,3 +129,16 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    productsInSpeech: state.speech.productsInSpeech,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  {
+    speechProductsFetched,
+  },
+)(Calculator);
