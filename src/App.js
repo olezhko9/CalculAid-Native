@@ -46,7 +46,8 @@ const TabNavigator = createBottomTabNavigator(
   },
   {
     tabBarOptions: {
-      showLabel: false
+      showLabel: false,
+      keyboardHidesTabBar: false
     }
   }
 )

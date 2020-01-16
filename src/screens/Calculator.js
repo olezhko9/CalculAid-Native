@@ -1,8 +1,10 @@
 import * as React from 'react';
 import axios from 'axios';
 
-import {List, Divider, Text, Chip, Button} from 'react-native-paper';
+import {Colors, ActivityIndicator, List, Divider, Text, Chip, Button} from 'react-native-paper';
 import {StyleSheet, FlatList, View} from 'react-native';
+
+import appStyles from '../styles/main';
 
 
 export default class Calculator extends React.Component {
@@ -12,10 +14,16 @@ export default class Calculator extends React.Component {
 
   state = {
     products: [],
+    loading: false,
     speech: 'Я съел 2 куска ржаного хлеба еще я съел десять чайных ложек варенного риса а еще выпил двести миллилитров апельсинного сока и еще выпил стакан козьего молока а еще я съел одно яблоко',
   };
 
+  componentDidMount() {
+    this.getData();
+  }
+
   async getData() {
+    this.setState({ loading: true });
     try {
       const response = (await axios.post('http://194.87.101.20:3000/api/products', {
         speech: this.state.speech,
@@ -26,17 +34,24 @@ export default class Calculator extends React.Component {
     } catch (e) {
       console.log(e);
     }
+    this.setState({ loading: false });
   }
 
   render() {
     const { navigate } = this.props.navigation;
     const products = this.state.products;
     return (
-      <View>
+      <View style={appStyles.stackLayout}>
         <Button icon={'microphone'} mode={'contained'} onPress={this.getData.bind(this)}>Рассказать</Button>
+        {this.state.loading &&
+          <ActivityIndicator animating={this.state.loading} color={Colors.red800}/>
+        }
         {!!products.length &&
         <FlatList
+          style={{paddingTop: 10}}
           ItemSeparatorComponent={Divider}
+          keyExtractor={(item) => item.products[0].id.toString()}
+          data={this.state.products}
           renderItem={({item}) => (
             <List.Item
               title={item.products[0].name.charAt(0).toUpperCase() + item.products[0].name.slice(1)}
@@ -62,15 +77,13 @@ export default class Calculator extends React.Component {
               )}
               right={props => (
                 <View style={[styles.column, {justifyContent: 'center'}]}>
-                  <Button onPress={() => navigate('DetailedSpeechProduct', {product: item.products[0]})}>
-                    Сменить
+                  <Button onPress={() => navigate('DetailedSpeechProduct', {product: item})}>
+                    Изменить
                   </Button>
                 </View>
               )}>
             </List.Item>
           )}
-          keyExtractor={(item) => item.products[0].id.toString()}
-          data={this.state.products}
         />
         }
       </View>
