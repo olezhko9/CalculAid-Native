@@ -34,6 +34,15 @@ export default class DetailedSpeechProduct extends React.Component {
     });
   }
 
+  updateAmount(value) {
+    this.setState({
+      product: {
+        ...this.state.product,
+        amount: this.state.product.amount + value,
+      },
+    });
+  }
+
   render() {
     if (this.state.product) {
       return (
@@ -80,24 +89,16 @@ export default class DetailedSpeechProduct extends React.Component {
             </View>
 
             <View style={[appStyles.row, {justifyContent: 'space-between'}]}>
-              <Button compact mode={'contained'} style={[styles.amountButton]}>
-                -100
-              </Button>
-              <Button compact mode={'contained'} style={styles.amountButton}>
-                -5
-              </Button>
-              <Button compact mode={'contained'} style={[styles.amountButton]}>
-                -1
-              </Button>
-              <Button compact mode={'contained'} style={[styles.amountButton]}>
-                +1
-              </Button>
-              <Button compact mode={'contained'} style={[styles.amountButton]}>
-                +5
-              </Button>
-              <Button compact mode={'contained'} style={[styles.amountButton]}>
-                +100
-              </Button>
+              {[-100, -10, -1, 1, 10, 100].map(value => (
+                <Button
+                  compact
+                  key={value}
+                  mode={'contained'}
+                  style={[styles.amountButton]}
+                  onPress={() => this.updateAmount(value)}>
+                  {value < 0 ? value : `+${value}`}
+                </Button>
+              ))}
             </View>
           </View>
         </DismissKeyboard>
