@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Button } from 'react-native';
+import {View, Button} from 'react-native';
 
 export default class Diary extends React.Component {
   render() {
@@ -14,4 +14,3 @@ export default class Diary extends React.Component {
     );
   }
 }
-
