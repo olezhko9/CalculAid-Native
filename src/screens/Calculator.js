@@ -70,7 +70,7 @@ class Calculator extends React.Component {
             ItemSeparatorComponent={Divider}
             keyExtractor={item => item.products[0].id.toString()}
             data={productsInSpeech}
-            renderItem={({item}) => (
+            renderItem={({item, index}) => (
               <List.Item
                 title={
                   item.products[0].name.charAt(0).toUpperCase() +
@@ -102,7 +102,9 @@ class Calculator extends React.Component {
                   <View style={[styles.column, {justifyContent: 'center'}]}>
                     <Button
                       onPress={() =>
-                        navigate('DetailedSpeechProduct', {product: item})
+                        navigate('DetailedSpeechProduct', {
+                          changeProductIndex: index,
+                        })
                       }>
                       Изменить
                     </Button>
