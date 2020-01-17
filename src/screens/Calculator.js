@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    productsInSpeech: state.speech.productsInSpeech,
+    productsInSpeech: state.products.productsInSpeech,
   };
 };
 
