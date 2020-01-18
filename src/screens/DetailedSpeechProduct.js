@@ -10,6 +10,7 @@ import {Chip, Button, TextInput} from 'react-native-paper';
 import {connect} from 'react-redux';
 
 import appStyles from '../styles/main';
+import {productAmountChanged} from '../store/actions';
 
 const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -20,13 +21,10 @@ const DismissKeyboard = ({children}) => (
 class DetailedSpeechProduct extends React.Component {
   constructor(props) {
     super(props);
+    const productIndex = this.props.navigation.getParam('changeProductIndex');
     this.state = {
-      productsData: this.props.productsInSpeech[
-        this.props.navigation.getParam('changeProductIndex')
-      ],
-      selectedProduct: this.props.productsInSpeech[
-        this.props.navigation.getParam('changeProductIndex')
-      ].products[0],
+      productIndex: this.props.navigation.getParam('changeProductIndex'),
+      productsData: this.props.productsInSpeech[productIndex],
     };
   }
   // static navigationOptions = ({navigation}) => {
@@ -35,30 +33,29 @@ class DetailedSpeechProduct extends React.Component {
   //   };
   // };
 
-  componentDidMount() {
-    this.setState({
-      productsData: this.props.productsInSpeech[
-        this.props.navigation.getParam('changeProductIndex')
-      ],
-    });
-  }
+  updateAmount = amount => {
+    this.props.productAmountChanged(
+      this.props.navigation.getParam('changeProductIndex'),
+      this.props.selectedProducts[this.state.productIndex].amount + amount,
+    );
+  };
 
-  updateAmount(value) {
-    this.setState({
-      productsData: {
-        ...this.state.productsData,
-        amount: this.state.productsData.amount + value,
-      },
-    });
-  }
+  onAmountChanged = amount => {
+    this.props.productAmountChanged(
+      this.props.navigation.getParam('changeProductIndex'),
+      +amount,
+    );
+  };
 
   render() {
-    if (this.state.productsData && this.state.productsData.products) {
+    if (this.state.productsData) {
       return (
         <DismissKeyboard>
           <View style={appStyles.stackLayout}>
             <Picker
-              selectedValue={this.state.selectedProduct}
+              selectedValue={
+                this.props.selectedProducts[this.state.productIndex].product
+              }
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({selectedProduct: itemValue})
               }>
@@ -73,13 +70,22 @@ class DetailedSpeechProduct extends React.Component {
 
             <View style={[appStyles.row]}>
               <Chip style={[styles.chip]}>
-                {`Б: ${this.state.selectedProduct.pfc.p}`}
+                {`Б: ${
+                  this.props.selectedProducts[this.state.productIndex].product
+                    .pfc.p
+                }`}
               </Chip>
               <Chip style={[styles.chip]}>
-                {`Ж: ${this.state.selectedProduct.pfc.f}`}
+                {`Ж: ${
+                  this.props.selectedProducts[this.state.productIndex].product
+                    .pfc.f
+                }`}
               </Chip>
               <Chip style={[styles.chip]}>
-                {`У: ${this.state.selectedProduct.pfc.c}`}
+                {`У: ${
+                  this.props.selectedProducts[this.state.productIndex].product
+                    .pfc.c
+                }`}
               </Chip>
             </View>
 
@@ -88,15 +94,10 @@ class DetailedSpeechProduct extends React.Component {
                 label="Введите количество"
                 style={{backgroundColor: 'transparent', flex: 1}}
                 keyboardType={'numeric'}
-                value={this.state.productsData.amount.toString()}
-                onChangeText={text =>
-                  this.setState({
-                    productsData: {
-                      ...this.state.productsData,
-                      amount: +text,
-                    },
-                  })
-                }
+                value={this.props.selectedProducts[
+                  this.state.productIndex
+                ].amount.toString()}
+                onChangeText={amount => this.onAmountChanged(amount)}
               />
             </View>
 
@@ -133,10 +134,13 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     productsInSpeech: state.products.productsInSpeech,
+    selectedProducts: state.selectedProducts,
   };
 };
 
 export default connect(
   mapStateToProps,
-  null,
+  {
+    productAmountChanged,
+  },
 )(DetailedSpeechProduct);

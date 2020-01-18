@@ -4,3 +4,13 @@ export const speechProductsFetched = productsInSpeech => {
     payload: productsInSpeech,
   };
 };
+
+export const productAmountChanged = (productIndex, amount) => {
+  return {
+    type: 'PRODUCT_AMOUNT_CHANGED',
+    payload: {
+      productIndex,
+      amount,
+    },
+  };
+};
