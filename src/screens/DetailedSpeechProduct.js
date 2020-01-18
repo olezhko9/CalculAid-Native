@@ -10,7 +10,7 @@ import {Chip, Button, TextInput} from 'react-native-paper';
 import {connect} from 'react-redux';
 
 import appStyles from '../styles/main';
-import {productAmountChanged} from '../store/actions';
+import {selectedProductChanged, productAmountChanged} from '../store/actions';
 
 const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -32,6 +32,13 @@ class DetailedSpeechProduct extends React.Component {
   //     title: navigation.getParam('product', 'Detailed product').name,
   //   };
   // };
+
+  onProductChanged = product => {
+    this.props.selectedProductChanged(
+      this.props.navigation.getParam('changeProductIndex'),
+      product,
+    );
+  }
 
   updateAmount = amount => {
     this.props.productAmountChanged(
@@ -56,9 +63,7 @@ class DetailedSpeechProduct extends React.Component {
               selectedValue={
                 this.props.selectedProducts[this.state.productIndex].product
               }
-              onValueChange={(itemValue, itemIndex) =>
-                this.setState({selectedProduct: itemValue})
-              }>
+              onValueChange={product => this.onProductChanged(product)}>
               {this.state.productsData.products.map(product => (
                 <Picker.Item
                   key={product.id}
@@ -142,5 +147,6 @@ export default connect(
   mapStateToProps,
   {
     productAmountChanged,
+    selectedProductChanged,
   },
 )(DetailedSpeechProduct);

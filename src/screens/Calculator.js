@@ -49,7 +49,6 @@ class Calculator extends React.Component {
 
   render() {
     const {navigate} = this.props.navigation;
-    const {productsInSpeech} = this.props;
     return (
       <View style={appStyles.stackLayout}>
         <Button
@@ -64,17 +63,17 @@ class Calculator extends React.Component {
             color={Colors.red800}
           />
         )}
-        {!!productsInSpeech.length && (
+        {!!this.props.selectedProducts.length && (
           <FlatList
             style={{paddingTop: 10}}
             ItemSeparatorComponent={Divider}
-            keyExtractor={item => item.products[0].id.toString()}
-            data={productsInSpeech}
+            keyExtractor={item => item.product.id.toString()}
+            data={this.props.selectedProducts}
             renderItem={({item, index}) => (
               <List.Item
                 title={
-                  item.products[0].name.charAt(0).toUpperCase() +
-                  item.products[0].name.slice(1)
+                  item.product.name.charAt(0).toUpperCase() +
+                  item.product.name.slice(1)
                 }
                 titleNumberOfLines={2}
                 titleStyle={{fontWeight: 'bold', fontSize: 18}}
@@ -82,18 +81,18 @@ class Calculator extends React.Component {
                   <View>
                     <View style={[styles.row, {paddingTop: 8}]}>
                       <Text>{`Количество: ${item.amount} ${
-                        item.products[0].measures[0].name
+                        item.product.measures[0].name
                       }`}</Text>
                     </View>
                     <View style={[styles.row, {paddingTop: 8}]}>
                       <Chip style={[styles.chip]}>
-                        {`Б: ${item.products[0].pfc.p}`}
+                        {`Б: ${item.product.pfc.p}`}
                       </Chip>
                       <Chip style={[styles.chip]}>
-                        {`Ж: ${item.products[0].pfc.f}`}
+                        {`Ж: ${item.product.pfc.f}`}
                       </Chip>
                       <Chip style={[styles.chip]}>
-                        {`У: ${item.products[0].pfc.c}`}
+                        {`У: ${item.product.pfc.c}`}
                       </Chip>
                     </View>
                   </View>
@@ -135,6 +134,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     productsInSpeech: state.products.productsInSpeech,
+    selectedProducts: state.selectedProducts,
   };
 };
 

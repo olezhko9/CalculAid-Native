@@ -14,3 +14,13 @@ export const productAmountChanged = (productIndex, amount) => {
     },
   };
 };
+
+export const selectedProductChanged = (productIndex, product) => {
+  return {
+    type: 'SELECTED_PRODUCT_CHANGED',
+    payload: {
+      productIndex,
+      product,
+    },
+  };
+};
