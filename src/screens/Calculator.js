@@ -81,7 +81,7 @@ class Calculator extends React.Component {
                   <View>
                     <View style={[styles.row, {paddingTop: 8}]}>
                       <Text>{`Количество: ${item.amount} ${
-                        item.product.measures[0].name
+                        item.product.measure.name
                       }`}</Text>
                     </View>
                     <View style={[styles.row, {paddingTop: 8}]}>

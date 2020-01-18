@@ -10,7 +10,11 @@ import {Chip, Button, TextInput} from 'react-native-paper';
 import {connect} from 'react-redux';
 
 import appStyles from '../styles/main';
-import {selectedProductChanged, productAmountChanged} from '../store/actions';
+import {
+  selectedProductChanged,
+  productAmountChanged,
+  productMeasureChanged,
+} from '../store/actions';
 
 const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -38,7 +42,7 @@ class DetailedSpeechProduct extends React.Component {
       this.props.navigation.getParam('changeProductIndex'),
       product,
     );
-  }
+  };
 
   updateAmount = amount => {
     this.props.productAmountChanged(
@@ -51,6 +55,13 @@ class DetailedSpeechProduct extends React.Component {
     this.props.productAmountChanged(
       this.props.navigation.getParam('changeProductIndex'),
       +amount,
+    );
+  };
+
+  onMeasureChanged = measure => {
+    this.props.productMeasureChanged(
+      this.props.navigation.getParam('changeProductIndex'),
+      measure,
     );
   };
 
@@ -118,6 +129,23 @@ class DetailedSpeechProduct extends React.Component {
                 </Button>
               ))}
             </View>
+
+            <Picker
+              selectedValue={
+                this.props.selectedProducts[this.state.productIndex].product
+                  .measure
+              }
+              onValueChange={measure => this.onMeasureChanged(measure)}>
+              {this.props.selectedProducts[
+                this.state.productIndex
+              ].product.measures.map(measure => (
+                <Picker.Item
+                  key={measure.id}
+                  label={measure.name}
+                  value={measure}
+                />
+              ))}
+            </Picker>
           </View>
         </DismissKeyboard>
       );
@@ -148,5 +176,6 @@ export default connect(
   {
     productAmountChanged,
     selectedProductChanged,
+    productMeasureChanged,
   },
 )(DetailedSpeechProduct);

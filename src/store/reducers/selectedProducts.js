@@ -31,6 +31,21 @@ export default (state = [], action) => {
         }
         return product;
       });
+
+    case 'PRODUCT_MEASURE_CHANGED':
+      return state.map((product, index) => {
+        if (index === action.payload.productIndex) {
+          return {
+            ...product,
+            product: {
+              ...product.product,
+              measure: action.payload.measure,
+            },
+          };
+        }
+        return product;
+      });
+
     default:
       return state;
   }

@@ -5,6 +5,16 @@ export const speechProductsFetched = productsInSpeech => {
   };
 };
 
+export const selectedProductChanged = (productIndex, product) => {
+  return {
+    type: 'SELECTED_PRODUCT_CHANGED',
+    payload: {
+      productIndex,
+      product,
+    },
+  };
+};
+
 export const productAmountChanged = (productIndex, amount) => {
   return {
     type: 'PRODUCT_AMOUNT_CHANGED',
@@ -15,12 +25,12 @@ export const productAmountChanged = (productIndex, amount) => {
   };
 };
 
-export const selectedProductChanged = (productIndex, product) => {
+export const productMeasureChanged = (productIndex, measure) => {
   return {
-    type: 'SELECTED_PRODUCT_CHANGED',
+    type: 'PRODUCT_MEASURE_CHANGED',
     payload: {
       productIndex,
-      product,
+      measure,
     },
   };
 };
