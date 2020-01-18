@@ -27,6 +27,21 @@ class Calculator extends React.Component {
       'Я съел 2 куска ржаного хлеба еще я съел десять чайных ложек варенного риса а еще выпил двести миллилитров апельсинного сока и еще выпил стакан козьего молока а еще я съел одно яблоко',
   };
 
+  breadUnits = () => {
+    const {selectedProducts} = this.props;
+    let bu = 0;
+    if (selectedProducts.length) {
+      for (let i = 0; i < selectedProducts.length; i++) {
+        if (selectedProducts[i].product.measure) {
+          bu +=
+            ((selectedProducts[i].amount * selectedProducts[i].product.measure.grams) / 100) *
+            selectedProducts[i].product.pfc.c;
+        }
+      }
+    }
+    return bu / 10;
+  };
+
   componentDidMount() {
     this.getData();
   }
@@ -57,6 +72,9 @@ class Calculator extends React.Component {
           onPress={this.getData.bind(this)}>
           Рассказать
         </Button>
+
+        <Text style={styles.breadUnits}>{this.breadUnits().toFixed(2)} ХЕ</Text>
+
         {this.state.loading && (
           <ActivityIndicator
             animating={this.state.loading}
@@ -128,6 +146,11 @@ const styles = StyleSheet.create({
   },
   chip: {
     marginRight: 16,
+  },
+  breadUnits: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 
