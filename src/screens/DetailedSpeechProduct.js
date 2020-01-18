@@ -49,7 +49,7 @@ class DetailedSpeechProduct extends React.Component {
     );
 
     this.props.navigation.setParams({
-      title: product.name,
+      title: product.name.toUpperCase(),
     });
   };
 

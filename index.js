@@ -5,11 +5,15 @@ import {Provider as ReduxProvider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import ReduxThunk from 'redux-thunk';
 import reducers from './src/store/reducers';
+import {composeWithDevTools} from 'redux-devtools-extension';
 
 import App from './src/App';
 import {name as appName} from './app.json';
 
-const store = createStore(reducers, applyMiddleware(ReduxThunk));
+const store = createStore(
+  reducers,
+  composeWithDevTools(applyMiddleware(ReduxThunk)),
+);
 
 export default function Main() {
   return (
