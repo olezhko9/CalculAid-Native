@@ -9,10 +9,8 @@ export default (state = [], action) => {
       });
 
     case 'SELECTED_PRODUCT_CHANGED':
-      console.log(action.payload);
       return state.map((product, index) => {
         if (index === action.payload.productIndex) {
-          console.log(product);
           return {
             ...product,
             product: action.payload.product,
@@ -36,7 +34,7 @@ export default (state = [], action) => {
       return state.map((product, index) => {
         if (index === action.payload.productIndex) {
           return {
-            ...product,
+            amount: product.amount,
             product: {
               ...product.product,
               measure: action.payload.measure,

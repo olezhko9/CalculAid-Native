@@ -23,25 +23,34 @@ const DismissKeyboard = ({children}) => (
 );
 
 class DetailedSpeechProduct extends React.Component {
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: navigation.getParam('title', 'Product name'),
+    };
+  };
+
   constructor(props) {
     super(props);
-    const productIndex = this.props.navigation.getParam('changeProductIndex');
+    const productIndex = props.navigation.getParam('changeProductIndex');
     this.state = {
-      productIndex: this.props.navigation.getParam('changeProductIndex'),
-      productsData: this.props.productsInSpeech[productIndex],
+      productIndex: props.navigation.getParam('changeProductIndex'),
+      productsData: props.productsInSpeech[productIndex],
     };
+
+    props.navigation.setParams({
+      title: props.selectedProducts[productIndex].product.name,
+    });
   }
-  // static navigationOptions = ({navigation}) => {
-  //   return {
-  //     title: navigation.getParam('product', 'Detailed product').name,
-  //   };
-  // };
 
   onProductChanged = product => {
     this.props.selectedProductChanged(
       this.props.navigation.getParam('changeProductIndex'),
       product,
     );
+
+    this.props.navigation.setParams({
+      title: product.name,
+    });
   };
 
   updateAmount = amount => {
