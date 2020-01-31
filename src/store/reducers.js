@@ -3,6 +3,6 @@ import speechProductsReducer from './reducers/speechProducts';
 import selectedProductsReducer from './reducers/selectedProducts';
 
 export default combineReducers({
-  products: speechProductsReducer,
+  speechProducts: speechProductsReducer,
   selectedProducts: selectedProductsReducer,
 });
