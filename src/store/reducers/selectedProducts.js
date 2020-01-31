@@ -20,6 +20,9 @@ export default (state = [], action) => {
       });
 
     case 'PRODUCT_AMOUNT_CHANGED':
+      if (action.payload.amount < 0) {
+        action.payload.amount = 0;
+      }
       return state.map((product, index) => {
         if (index === action.payload.productIndex) {
           return {

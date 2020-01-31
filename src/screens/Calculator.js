@@ -62,7 +62,8 @@ class Calculator extends React.Component {
   state = {
     loading: false,
     speech:
-      'Я съел 2 куска ржаного хлеба еще я съел десять чайных ложек варенного риса а еще выпил двести миллилитров апельсинного сока и еще выпил стакан козьего молока а еще я съел одно яблоко',
+      'Я съел 2 куска ржаного хлеба еще я съел десять чайных ложек варенного риса а еще выпил двести миллилитров апельсинного сока и еще выпил стакан козьего молока а еще я съел одно яблоко' +
+      'еще Я съел 2 куска ржаного хлеба еще я съел десять чайных ложек варенного риса а еще выпил двести миллилитров апельсинного сока и еще выпил стакан козьего молока а еще я съел одно яблоко',
   };
 
   breadUnits = () => {
@@ -126,6 +127,7 @@ class Calculator extends React.Component {
             ItemSeparatorComponent={Divider}
             keyExtractor={item => item.product.id.toString()}
             data={this.props.selectedProducts}
+            showsVerticalScrollIndicator={false}
             renderItem={({item, index}) => (
               <SpeechProductListItem
                 item={item}
