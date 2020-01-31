@@ -5,16 +5,54 @@ import axios from 'axios';
 
 import {
   Colors,
-  ActivityIndicator,
   List,
+  ActivityIndicator,
   Divider,
   Text,
   Chip,
   Button,
+  IconButton,
 } from 'react-native-paper';
-import {StyleSheet, FlatList, View} from 'react-native';
 
+import {StyleSheet, FlatList, View} from 'react-native';
 import appStyles from '../styles/main';
+
+const SpeechProductListItem = ({item, index, navigation}) => {
+  const {navigate} = navigation;
+  return (
+    <List.Item
+      title={
+        item.product.name.charAt(0).toUpperCase() + item.product.name.slice(1)
+      }
+      titleNumberOfLines={2}
+      titleStyle={{fontWeight: 'bold', fontSize: 18}}
+      description={() => (
+        <View>
+          <View style={[styles.row, {paddingTop: 8}]}>
+            <Text>{`Количество: ${item.amount} ${
+              item.product.measure.name
+            }`}</Text>
+          </View>
+          <View style={[styles.row, {paddingTop: 8}]}>
+            <Chip style={[styles.chip]}>{`Б: ${item.product.pfc.p}`}</Chip>
+            <Chip style={[styles.chip]}>{`Ж: ${item.product.pfc.f}`}</Chip>
+            <Chip style={[styles.chip]}>{`У: ${item.product.pfc.c}`}</Chip>
+          </View>
+        </View>
+      )}
+      right={props => (
+        <View style={[styles.column, {justifyContent: 'center'}]}>
+          <IconButton icon={'chevron-right'} />
+        </View>
+      )}
+      onPress={() =>
+        navigate('DetailedSpeechProduct', {
+          changeProductIndex: index,
+        })
+      }
+    />
+  );
+};
 
 class Calculator extends React.Component {
   static navigationOptions = {
@@ -34,7 +72,9 @@ class Calculator extends React.Component {
       for (let i = 0; i < selectedProducts.length; i++) {
         if (selectedProducts[i].product.measure) {
           bu +=
-            ((selectedProducts[i].amount * selectedProducts[i].product.measure.grams) / 100) *
+            ((selectedProducts[i].amount *
+              selectedProducts[i].product.measure.grams) /
+              100) *
             selectedProducts[i].product.pfc.c;
         }
       }
@@ -63,7 +103,6 @@ class Calculator extends React.Component {
   }
 
   render() {
-    const {navigate} = this.props.navigation;
     return (
       <View style={appStyles.stackLayout}>
         <Button
@@ -88,45 +127,10 @@ class Calculator extends React.Component {
             keyExtractor={item => item.product.id.toString()}
             data={this.props.selectedProducts}
             renderItem={({item, index}) => (
-              <List.Item
-                title={
-                  item.product.name.charAt(0).toUpperCase() +
-                  item.product.name.slice(1)
-                }
-                titleNumberOfLines={2}
-                titleStyle={{fontWeight: 'bold', fontSize: 18}}
-                description={() => (
-                  <View>
-                    <View style={[styles.row, {paddingTop: 8}]}>
-                      <Text>{`Количество: ${item.amount} ${
-                        item.product.measure.name
-                      }`}</Text>
-                    </View>
-                    <View style={[styles.row, {paddingTop: 8}]}>
-                      <Chip style={[styles.chip]}>
-                        {`Б: ${item.product.pfc.p}`}
-                      </Chip>
-                      <Chip style={[styles.chip]}>
-                        {`Ж: ${item.product.pfc.f}`}
-                      </Chip>
-                      <Chip style={[styles.chip]}>
-                        {`У: ${item.product.pfc.c}`}
-                      </Chip>
-                    </View>
-                  </View>
-                )}
-                right={props => (
-                  <View style={[styles.column, {justifyContent: 'center'}]}>
-                    <Button
-                      onPress={() =>
-                        navigate('DetailedSpeechProduct', {
-                          changeProductIndex: index,
-                        })
-                      }>
-                      Изменить
-                    </Button>
-                  </View>
-                )}
+              <SpeechProductListItem
+                item={item}
+                index={index}
+                navigation={this.props.navigation}
               />
             )}
           />
