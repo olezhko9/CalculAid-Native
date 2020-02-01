@@ -1,8 +1,7 @@
 import {StyleSheet} from 'react-native';
-import {DefaultTheme} from 'react-native-paper';
+import theme from './theme';
 
-const {colors} = DefaultTheme;
-console.log(colors);
+const {colors} = theme;
 
 const appStyles = StyleSheet.create({
   stackLayout: {

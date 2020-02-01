@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, TouchableHighlight, Animated} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import theme from '../styles/theme';
 
 export default class AddButton extends React.Component {
   render() {
@@ -25,23 +26,13 @@ const styles = StyleSheet.create({
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: '#7F58FF',
+    backgroundColor: theme.colors.primary,
     position: 'absolute',
     marginTop: -60,
-    shadowColor: '#7F58FF',
     shadowRadius: 5,
     shadowOffset: {height: 10},
     shadowOpacity: 0.3,
     borderWidth: 3,
     borderColor: '#FFFFFF',
-  },
-  secondaryButton: {
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#7F58FF',
   },
 });

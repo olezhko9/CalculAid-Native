@@ -5,7 +5,6 @@ import axios from 'axios';
 
 import {StyleSheet, View, SafeAreaView, TouchableOpacity} from 'react-native';
 import {
-  DefaultTheme,
   withTheme,
   ActivityIndicator,
   Divider,
@@ -20,8 +19,9 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {SwipeListView} from 'react-native-swipe-list-view';
 
 import appStyles from '../styles/main';
+import theme from '../styles/theme';
 
-const SpeechProductListItem = ({item, index, navigation}) => {
+const SpeechProductListItem = ({item, index, navigation, colors}) => {
   const {navigate} = navigation;
   return (
     <List.Item
@@ -30,7 +30,7 @@ const SpeechProductListItem = ({item, index, navigation}) => {
       }
       titleNumberOfLines={2}
       titleStyle={{fontWeight: 'bold', fontSize: 18}}
-      style={{backgroundColor: DefaultTheme.colors.background}}
+      style={{backgroundColor: theme.colors.background}}
       description={() => (
         <View>
           <View style={[styles.row, {paddingTop: 8}]}>
@@ -174,7 +174,6 @@ class Calculator extends React.Component {
     const foregroundHeaderHeight = 150,
       stickyHeaderHeight = 50;
     const {colors} = this.props.theme;
-    console.log(colors.primary);
     return (
       <ParallaxScrollView
         backgroundColor={colors.primary}
@@ -210,7 +209,10 @@ class Calculator extends React.Component {
               renderHiddenItem={(data, rowMap) => (
                 <View style={styles.rowBack}>
                   <TouchableOpacity
-                    style={[styles.backRightBtn, {backgroundColor: colors.backdrop}]}
+                    style={[
+                      styles.backRightBtn,
+                      {backgroundColor: colors.danger},
+                    ]}
                     onPress={() => {}}>
                     <Icon name={'trash'} color={'#fff'} size={20} />
                   </TouchableOpacity>

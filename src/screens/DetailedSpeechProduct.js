@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
   amountButton: {
     paddingLeft: 5,
     paddingRight: 5,
+    color: '#fff',
   },
   chip: {
     marginRight: 16,
