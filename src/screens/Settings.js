@@ -15,66 +15,76 @@ class Settings extends React.Component {
     const {navigation, settings} = this.props;
     return (
       <SafeAreaView>
-        <List.Item
-          title="Углеводов в ХЕ"
-          left={props => <List.Icon {...props} icon="folder" />}
-          right={() => (
-            <View style={{flexDirection: 'row', minWidth: 150}}>
-              <Input
-                value={settings.carbonPerBU}
-                style={{textAlign: 'right'}}
-                onChangeText={text =>
-                  this.onSettingsUpdated({carbonPerBU: text})
-                }
-              />
-              <Text style={{lineHeight: 40}}> г</Text>
-            </View>
-          )}
-        />
-        <List.Item
-          title="Инсулина на 1ХЕ"
-          left={props => <List.Icon {...props} icon="folder" />}
-          right={() => (
-            <View style={{flexDirection: 'row', minWidth: 150}}>
-              <Input
-                value={settings.insulinPerBU}
-                style={{textAlign: 'right'}}
-                onChangeText={text =>
-                  this.onSettingsUpdated({insulinPerBU: text})
-                }
-              />
-              <Text style={{lineHeight: 40}}> ед.</Text>
-            </View>
-          )}
-        />
-        <List.Item
-          title="Низкий сахар"
-          left={props => <List.Icon {...props} icon="folder" />}
-          right={() => (
-            <View style={{flexDirection: 'row', minWidth: 150}}>
-              <Input
-                value={settings.minSugar}
-                style={{textAlign: 'right'}}
-                onChangeText={text => this.onSettingsUpdated({minSugar: text})}
-              />
-              <Text style={{lineHeight: 40}}> ммоль/л</Text>
-            </View>
-          )}
-        />
-        <List.Item
-          title="Высокий сахар"
-          left={props => <List.Icon {...props} icon="folder" />}
-          right={() => (
-            <View style={{flexDirection: 'row', minWidth: 150}}>
-              <Input
-                value={settings.maxSugar}
-                style={{textAlign: 'right'}}
-                onChangeText={text => this.onSettingsUpdated({maxSugar: text})}
-              />
-              <Text style={{lineHeight: 40}}> ммоль/л</Text>
-            </View>
-          )}
-        />
+        <List.Section>
+          <List.Subheader>Коэффициенты</List.Subheader>
+          <List.Item
+            title="Углеводов в ХЕ"
+            left={props => <List.Icon {...props} icon="folder" />}
+            right={() => (
+              <View style={{flexDirection: 'row', minWidth: 150}}>
+                <Input
+                  value={settings.carbonPerBU}
+                  style={{textAlign: 'right'}}
+                  onChangeText={text =>
+                    this.onSettingsUpdated({carbonPerBU: text})
+                  }
+                />
+                <Text style={{lineHeight: 40}}> г</Text>
+              </View>
+            )}
+          />
+          <List.Item
+            title="Инсулина на 1ХЕ"
+            left={props => <List.Icon {...props} icon="folder" />}
+            right={() => (
+              <View style={{flexDirection: 'row', minWidth: 150}}>
+                <Input
+                  value={settings.insulinPerBU}
+                  style={{textAlign: 'right'}}
+                  onChangeText={text =>
+                    this.onSettingsUpdated({insulinPerBU: text})
+                  }
+                />
+                <Text style={{lineHeight: 40}}> ед.</Text>
+              </View>
+            )}
+          />
+        </List.Section>
+        <List.Section>
+          <List.Subheader>Сахар</List.Subheader>
+          <List.Item
+            title="Низкий сахар"
+            left={props => <List.Icon {...props} icon="folder" />}
+            right={() => (
+              <View style={{flexDirection: 'row', minWidth: 150}}>
+                <Input
+                  value={settings.minSugar}
+                  style={{textAlign: 'right'}}
+                  onChangeText={text =>
+                    this.onSettingsUpdated({minSugar: text})
+                  }
+                />
+                <Text style={{lineHeight: 40}}> ммоль/л</Text>
+              </View>
+            )}
+          />
+          <List.Item
+            title="Высокий сахар"
+            left={props => <List.Icon {...props} icon="folder" />}
+            right={() => (
+              <View style={{flexDirection: 'row', minWidth: 150}}>
+                <Input
+                  value={settings.maxSugar}
+                  style={{textAlign: 'right'}}
+                  onChangeText={text =>
+                    this.onSettingsUpdated({maxSugar: text})
+                  }
+                />
+                <Text style={{lineHeight: 40}}> ммоль/л</Text>
+              </View>
+            )}
+          />
+        </List.Section>
       </SafeAreaView>
     );
   }
