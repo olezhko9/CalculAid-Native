@@ -16,6 +16,8 @@ import {
 } from 'react-native-paper';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 
+import appStyles from '../styles/main';
+
 const SpeechProductListItem = ({item, index, navigation}) => {
   const {navigate} = navigation;
   return (
@@ -33,9 +35,15 @@ const SpeechProductListItem = ({item, index, navigation}) => {
             }`}</Text>
           </View>
           <View style={[styles.row, {paddingTop: 8}]}>
-            <Chip style={[styles.chip]}>{`Б: ${item.product.pfc.p}`}</Chip>
-            <Chip style={[styles.chip]}>{`Ж: ${item.product.pfc.f}`}</Chip>
-            <Chip style={[styles.chip]}>{`У: ${item.product.pfc.c}`}</Chip>
+            <Chip style={[appStyles.pfcChip]} textStyle={{color: '#fff'}}>
+              {`Б: ${item.product.pfc.p}`}
+            </Chip>
+            <Chip style={[appStyles.pfcChip]} textStyle={{color: '#fff'}}>
+              {`Ж: ${item.product.pfc.f}`}
+            </Chip>
+            <Chip style={[appStyles.pfcChip]} textStyle={{color: '#fff'}}>
+              {`У: ${item.product.pfc.c}`}
+            </Chip>
           </View>
         </View>
       )}
@@ -209,9 +217,9 @@ const styles = StyleSheet.create({
   column: {
     flexDirection: 'column',
   },
-  chip: {
-    marginRight: 16,
-  },
+  // chip: {
+  //
+  // },
   breadUnitsText: {
     fontSize: 30,
     fontWeight: 'bold',

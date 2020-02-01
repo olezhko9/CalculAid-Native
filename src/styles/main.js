@@ -1,4 +1,8 @@
 import {StyleSheet} from 'react-native';
+import {DefaultTheme} from 'react-native-paper';
+
+const {colors} = DefaultTheme;
+console.log(colors);
 
 const appStyles = StyleSheet.create({
   stackLayout: {
@@ -13,6 +17,10 @@ const appStyles = StyleSheet.create({
   },
   column: {
     flexDirection: 'column',
+  },
+  pfcChip: {
+    marginRight: 16,
+    backgroundColor: colors.primary,
   },
 });
 

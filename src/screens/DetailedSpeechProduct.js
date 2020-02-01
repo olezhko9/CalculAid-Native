@@ -94,19 +94,19 @@ class DetailedSpeechProduct extends React.Component {
             </Picker>
 
             <View style={[appStyles.row]}>
-              <Chip style={[styles.chip]}>
+              <Chip style={[appStyles.pfcChip]} textStyle={{color: '#fff'}}>
                 {`Б: ${
                   this.props.selectedProducts[this.state.productIndex].product
                     .pfc.p
                 }`}
               </Chip>
-              <Chip style={[styles.chip]}>
+              <Chip style={[appStyles.pfcChip]} textStyle={{color: '#fff'}}>
                 {`Ж: ${
                   this.props.selectedProducts[this.state.productIndex].product
                     .pfc.f
                 }`}
               </Chip>
-              <Chip style={[styles.chip]}>
+              <Chip style={[appStyles.pfcChip]} textStyle={{color: '#fff'}}>
                 {`У: ${
                   this.props.selectedProducts[this.state.productIndex].product
                     .pfc.c
