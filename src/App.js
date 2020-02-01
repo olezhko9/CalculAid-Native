@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import CalcButton from './components/CalcButton';
 
 import Diary from './screens/Diary';
-import Profile from './screens/Profile';
+import Settings from './screens/Settings';
 import Calculator from './screens/Calculator';
 import DetailedSpeechProduct from './screens/DetailedSpeechProduct';
 
@@ -34,8 +34,8 @@ const TabNavigator = createBottomTabNavigator(
         tabBarIcon: <CalcButton />,
       },
     },
-    Profile: {
-      screen: Profile,
+    Settings: {
+      screen: Settings,
       navigationOptions: {
         tabBarIcon: () => <Icon name={'user'} size={24} />,
       },
