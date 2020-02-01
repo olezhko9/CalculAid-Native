@@ -3,17 +3,31 @@ import {StyleSheet, SafeAreaView, View, Text} from 'react-native';
 import {List} from 'react-native-paper';
 import {Input} from 'native-base';
 
-export default class Settings extends React.Component {
+import {connect} from 'react-redux';
+import {settingsUpdated} from '../store/actions';
+
+class Settings extends React.Component {
+  onSettingsUpdated = settings => {
+    this.props.settingsUpdated(settings);
+  };
+
   render() {
-    const {navigation} = this.props;
+    const {navigation, settings} = this.props;
     return (
       <SafeAreaView>
         <List.Item
           title="Углеводов в ХЕ"
           left={props => <List.Icon {...props} icon="folder" />}
           right={() => (
-            <View>
-              <Input value={'123'} />
+            <View style={{flexDirection: 'row', minWidth: 150}}>
+              <Input
+                value={settings.carbonPerBU}
+                style={{textAlign: 'right'}}
+                onChangeText={text =>
+                  this.onSettingsUpdated({carbonPerBU: text})
+                }
+              />
+              <Text style={{lineHeight: 40}}> г</Text>
             </View>
           )}
         />
@@ -22,7 +36,13 @@ export default class Settings extends React.Component {
           left={props => <List.Icon {...props} icon="folder" />}
           right={() => (
             <View style={{flexDirection: 'row', minWidth: 150}}>
-              <Input value={'1.5'} style={{textAlign: 'right'}} />
+              <Input
+                value={settings.insulinPerBU}
+                style={{textAlign: 'right'}}
+                onChangeText={text =>
+                  this.onSettingsUpdated({insulinPerBU: text})
+                }
+              />
               <Text style={{lineHeight: 40}}> ед.</Text>
             </View>
           )}
@@ -32,7 +52,11 @@ export default class Settings extends React.Component {
           left={props => <List.Icon {...props} icon="folder" />}
           right={() => (
             <View style={{flexDirection: 'row', minWidth: 150}}>
-              <Input value={'3.5'} style={{textAlign: 'right'}} />
+              <Input
+                value={settings.minSugar}
+                style={{textAlign: 'right'}}
+                onChangeText={text => this.onSettingsUpdated({minSugar: text})}
+              />
               <Text style={{lineHeight: 40}}> ммоль/л</Text>
             </View>
           )}
@@ -42,7 +66,11 @@ export default class Settings extends React.Component {
           left={props => <List.Icon {...props} icon="folder" />}
           right={() => (
             <View style={{flexDirection: 'row', minWidth: 150}}>
-              <Input value={'3.5'} style={{textAlign: 'right'}} />
+              <Input
+                value={settings.maxSugar}
+                style={{textAlign: 'right'}}
+                onChangeText={text => this.onSettingsUpdated({maxSugar: text})}
+              />
               <Text style={{lineHeight: 40}}> ммоль/л</Text>
             </View>
           )}
@@ -51,3 +79,16 @@ export default class Settings extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    settings: state.settings,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  {
+    settingsUpdated,
+  },
+)(Settings);

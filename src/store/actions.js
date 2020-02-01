@@ -34,3 +34,12 @@ export const productMeasureChanged = (productIndex, measure) => {
     },
   };
 };
+
+export const settingsUpdated = settings => {
+  return {
+    type: 'SETTINGS_UPDATED',
+    payload: {
+      settings,
+    },
+  };
+}
