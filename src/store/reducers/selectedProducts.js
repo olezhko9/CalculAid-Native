@@ -47,6 +47,10 @@ export default (state = [], action) => {
         return product;
       });
 
+    case 'SPEECH_PRODUCT_REMOVED':
+      return state.filter(
+        (item, index) => index !== action.payload.productIndex,
+      );
     default:
       return state;
   }

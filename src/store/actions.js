@@ -35,6 +35,15 @@ export const productMeasureChanged = (productIndex, measure) => {
   };
 };
 
+export const productRemoved = productIndex => {
+  return {
+    type: 'SPEECH_PRODUCT_REMOVED',
+    payload: {
+      productIndex,
+    },
+  };
+}
+
 export const settingsUpdated = settings => {
   return {
     type: 'SETTINGS_UPDATED',

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {speechProductsFetched} from '../store/actions';
+import {speechProductsFetched, productRemoved} from '../store/actions';
 import axios from 'axios';
 
 import {StyleSheet, View, SafeAreaView, TouchableOpacity} from 'react-native';
@@ -115,7 +115,14 @@ class Calculator extends React.Component {
     this.setState({loading: false});
   }
 
-  renderForegroundHeader = (headerHeight, colors) => {
+  deleteRow = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
+    }
+    this.props.productRemoved(rowKey);
+  };
+
+  renderForegroundHeader = headerHeight => {
     return (
       <View style={{height: headerHeight, flexDirection: 'column'}}>
         <View
@@ -185,7 +192,7 @@ class Calculator extends React.Component {
         }
         renderStickyHeader={() => this.renderStickyHeader(stickyHeaderHeight)}
         renderContentBackground={() => this.renderHeaderFAB(colors)}>
-        <SafeAreaView style={{flex: 1, paddingTop: 25}}>
+        <SafeAreaView style={{flex: 1, paddingTop: 25, minHeight: 50}}>
           {this.state.loading && (
             <ActivityIndicator
               animating={this.state.loading}
@@ -213,7 +220,7 @@ class Calculator extends React.Component {
                       styles.backRightBtn,
                       {backgroundColor: colors.danger},
                     ]}
-                    onPress={() => {}}>
+                    onPress={() => this.deleteRow(rowMap, data.index)}>
                     <Icon name={'trash'} color={'#fff'} size={20} />
                   </TouchableOpacity>
                 </View>
@@ -286,6 +293,7 @@ export default withTheme(
     mapStateToProps,
     {
       speechProductsFetched,
+      productRemoved,
     },
   )(Calculator),
 );
