@@ -74,6 +74,7 @@ class Calculator extends React.Component {
   };
 
   breadUnits = () => {
+    const settings = this.props.settings;
     const {selectedProducts} = this.props;
     let bu = 0;
     if (selectedProducts.length) {
@@ -87,7 +88,7 @@ class Calculator extends React.Component {
         }
       }
     }
-    return bu / 10;
+    return (bu / settings.carbonPerBU) * settings.insulinPerBU;
   };
 
   componentDidMount() {
@@ -180,7 +181,7 @@ class Calculator extends React.Component {
         }
         renderStickyHeader={() => this.renderStickyHeader(stickyHeaderHeight)}
         renderContentBackground={() => this.renderHeaderFAB(colors)}>
-        <SafeAreaView style={{flex: 1, paddingTop: 15}}>
+        <SafeAreaView style={{flex: 1, paddingTop: 20}}>
           {this.state.loading && (
             <ActivityIndicator
               animating={this.state.loading}
@@ -217,9 +218,6 @@ const styles = StyleSheet.create({
   column: {
     flexDirection: 'column',
   },
-  // chip: {
-  //
-  // },
   breadUnitsText: {
     fontSize: 30,
     fontWeight: 'bold',
@@ -241,6 +239,7 @@ const mapStateToProps = state => {
   return {
     productsInSpeech: state.speechProducts,
     selectedProducts: state.selectedProducts,
+    settings: state.settings,
   };
 };
 
