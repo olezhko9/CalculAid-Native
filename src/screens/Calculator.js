@@ -3,8 +3,9 @@ import {connect} from 'react-redux';
 import {speechProductsFetched} from '../store/actions';
 import axios from 'axios';
 
-import {StyleSheet, FlatList, View, SafeAreaView} from 'react-native';
+import {StyleSheet, View, SafeAreaView, TouchableOpacity} from 'react-native';
 import {
+  DefaultTheme,
   withTheme,
   ActivityIndicator,
   Divider,
@@ -14,7 +15,9 @@ import {
   IconButton,
   FAB,
 } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
+import {SwipeListView} from 'react-native-swipe-list-view';
 
 import appStyles from '../styles/main';
 
@@ -27,6 +30,7 @@ const SpeechProductListItem = ({item, index, navigation}) => {
       }
       titleNumberOfLines={2}
       titleStyle={{fontWeight: 'bold', fontSize: 18}}
+      style={{backgroundColor: DefaultTheme.colors.background}}
       description={() => (
         <View>
           <View style={[styles.row, {paddingTop: 8}]}>
@@ -170,6 +174,7 @@ class Calculator extends React.Component {
     const foregroundHeaderHeight = 150,
       stickyHeaderHeight = 50;
     const {colors} = this.props.theme;
+    console.log(colors.primary);
     return (
       <ParallaxScrollView
         backgroundColor={colors.primary}
@@ -181,7 +186,7 @@ class Calculator extends React.Component {
         }
         renderStickyHeader={() => this.renderStickyHeader(stickyHeaderHeight)}
         renderContentBackground={() => this.renderHeaderFAB(colors)}>
-        <SafeAreaView style={{flex: 1, paddingTop: 20}}>
+        <SafeAreaView style={{flex: 1, paddingTop: 25}}>
           {this.state.loading && (
             <ActivityIndicator
               animating={this.state.loading}
@@ -189,7 +194,7 @@ class Calculator extends React.Component {
             />
           )}
           {!!this.props.selectedProducts.length && (
-            <FlatList
+            <SwipeListView
               style={{paddingTop: 10}}
               ItemSeparatorComponent={Divider}
               keyExtractor={item => item.product.id.toString()}
@@ -202,6 +207,20 @@ class Calculator extends React.Component {
                   navigation={this.props.navigation}
                 />
               )}
+              renderHiddenItem={(data, rowMap) => (
+                <View style={styles.rowBack}>
+                  <TouchableOpacity
+                    style={[styles.backRightBtn, {backgroundColor: colors.backdrop}]}
+                    onPress={() => {}}>
+                    <Icon name={'trash'} color={'#fff'} size={20} />
+                  </TouchableOpacity>
+                </View>
+              )}
+              leftOpenValue={0}
+              rightOpenValue={-75}
+              previewRowKey={'0'}
+              previewOpenValue={-40}
+              previewOpenDelay={3000}
             />
           )}
         </SafeAreaView>
@@ -232,6 +251,23 @@ const styles = StyleSheet.create({
     top: -35,
     right: 35,
     margin: 8,
+  },
+  rowBack: {
+    alignItems: 'center',
+    backgroundColor: '#ddd',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 15,
+  },
+  backRightBtn: {
+    alignItems: 'center',
+    bottom: 0,
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: 75,
   },
 });
 
