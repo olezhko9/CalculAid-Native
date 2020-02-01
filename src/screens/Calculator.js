@@ -3,18 +3,17 @@ import {connect} from 'react-redux';
 import {speechProductsFetched} from '../store/actions';
 import axios from 'axios';
 
+import {StyleSheet, FlatList, View, SafeAreaView} from 'react-native';
 import {
   withTheme,
-  Colors,
-  List,
   ActivityIndicator,
   Divider,
+  List,
   Text,
   Chip,
   IconButton,
+  FAB,
 } from 'react-native-paper';
-
-import {StyleSheet, FlatList, View, SafeAreaView} from 'react-native';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 
 const SpeechProductListItem = ({item, index, navigation}) => {
@@ -63,7 +62,7 @@ class Calculator extends React.Component {
   state = {
     loading: false,
     speech:
-      'Я съел 2 куска ржаного хлеба еще я съел десять чайных ложек варенного риса а еще выпил двести миллилитров апельсинного сока и еще выпил стакан козьего молока а еще я съел одно яблоко',
+      'Я съел 3 куска ржаного хлеба еще я съел десять чайных ложек варенного риса а еще выпил двести миллилитров апельсинного сока и еще выпил стакан козьего молока а еще я съел одно яблоко',
   };
 
   breadUnits = () => {
@@ -103,18 +102,23 @@ class Calculator extends React.Component {
     this.setState({loading: false});
   }
 
-  renderForegroundHeader = headerHeight => {
+  renderForegroundHeader = (headerHeight, colors) => {
     return (
-      <View
-        style={{
-          height: headerHeight,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <Text style={styles.breadUnits}>{this.breadUnits().toFixed(2)} ХЕ</Text>
-        <Text style={styles.insulinText}>
-          Рекомендуемая доза инсулина: {this.breadUnits() * 1.5} ед.
-        </Text>
+      <View style={{height: headerHeight, flexDirection: 'column'}}>
+        <View
+          style={{
+            height: headerHeight,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={styles.breadUnitsText}>
+            {this.breadUnits().toFixed(2)} ХЕ
+          </Text>
+          <Text style={styles.insulinText}>
+            {'Рекомендуемая доза инсулина: '}
+            {(this.breadUnits() * 1.5).toFixed(2)} ед.
+          </Text>
+        </View>
       </View>
     );
   };
@@ -130,18 +134,31 @@ class Calculator extends React.Component {
           paddingLeft: 10,
           paddingRight: 10,
         }}>
-        <Text style={[styles.breadUnits, {fontSize: 20, fontWeight: 'normal'}]}>
+        <Text
+          style={[styles.breadUnitsText, {fontSize: 20, fontWeight: 'normal'}]}>
           🍞 {this.breadUnits().toFixed(2)} ХЕ
         </Text>
         <Text style={[styles.insulinText, {fontSize: 20}]}>
-          💉 {this.breadUnits() * 1.5} ед.
+          💉 {(this.breadUnits() * 1.5).toFixed(2)} ед.
         </Text>
       </View>
     );
   };
 
+  renderHeaderFAB = colors => {
+    return (
+      <View style={{height: 30}}>
+        <View style={{height: 30, backgroundColor: colors.primary}} />
+        <View style={{backgroundColor: colors.background}}>
+          {/* listen button */}
+          <FAB icon="microphone" style={styles.headerFAB} onPress={() => {}} />
+        </View>
+      </View>
+    );
+  };
+
   render() {
-    const foregroundHeaderHeight = 200,
+    const foregroundHeaderHeight = 150,
       stickyHeaderHeight = 50;
     const {colors} = this.props.theme;
     return (
@@ -151,14 +168,15 @@ class Calculator extends React.Component {
         parallaxHeaderHeight={foregroundHeaderHeight}
         stickyHeaderHeight={stickyHeaderHeight}
         renderForeground={() =>
-          this.renderForegroundHeader(foregroundHeaderHeight)
+          this.renderForegroundHeader(foregroundHeaderHeight, colors)
         }
-        renderStickyHeader={() => this.renderStickyHeader(stickyHeaderHeight)}>
-        <SafeAreaView style={{flex: 1}}>
+        renderStickyHeader={() => this.renderStickyHeader(stickyHeaderHeight)}
+        renderContentBackground={() => this.renderHeaderFAB(colors)}>
+        <SafeAreaView style={{flex: 1, paddingTop: 15}}>
           {this.state.loading && (
             <ActivityIndicator
               animating={this.state.loading}
-              color={Colors.red800}
+              color={colors.primary}
             />
           )}
           {!!this.props.selectedProducts.length && (
@@ -194,14 +212,20 @@ const styles = StyleSheet.create({
   chip: {
     marginRight: 16,
   },
-  breadUnits: {
-    fontSize: 26,
+  breadUnitsText: {
+    fontSize: 30,
     fontWeight: 'bold',
     color: '#fff',
   },
   insulinText: {
     fontSize: 16,
     color: '#fff',
+  },
+  headerFAB: {
+    position: 'absolute',
+    top: -35,
+    right: 35,
+    margin: 8,
   },
 });
 
