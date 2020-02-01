@@ -4,18 +4,18 @@ import {speechProductsFetched} from '../store/actions';
 import axios from 'axios';
 
 import {
+  withTheme,
   Colors,
   List,
   ActivityIndicator,
   Divider,
   Text,
   Chip,
-  Button,
   IconButton,
 } from 'react-native-paper';
 
-import {StyleSheet, FlatList, View} from 'react-native';
-import appStyles from '../styles/main';
+import {StyleSheet, FlatList, View, SafeAreaView} from 'react-native';
+import ParallaxScrollView from 'react-native-parallax-scroll-view';
 
 const SpeechProductListItem = ({item, index, navigation}) => {
   const {navigate} = navigation;
@@ -40,7 +40,7 @@ const SpeechProductListItem = ({item, index, navigation}) => {
           </View>
         </View>
       )}
-      right={props => (
+      right={() => (
         <View style={[styles.column, {justifyContent: 'center'}]}>
           <IconButton icon={'chevron-right'} />
         </View>
@@ -50,6 +50,7 @@ const SpeechProductListItem = ({item, index, navigation}) => {
           changeProductIndex: index,
         })
       }
+      onLongPress={() => {}}
     />
   );
 };
@@ -62,8 +63,7 @@ class Calculator extends React.Component {
   state = {
     loading: false,
     speech:
-      'Я съел 2 куска ржаного хлеба еще я съел десять чайных ложек варенного риса а еще выпил двести миллилитров апельсинного сока и еще выпил стакан козьего молока а еще я съел одно яблоко' +
-      'еще Я съел 2 куска ржаного хлеба еще я съел десять чайных ложек варенного риса а еще выпил двести миллилитров апельсинного сока и еще выпил стакан козьего молока а еще я съел одно яблоко',
+      'Я съел 2 куска ржаного хлеба еще я съел десять чайных ложек варенного риса а еще выпил двести миллилитров апельсинного сока и еще выпил стакан козьего молока а еще я съел одно яблоко',
   };
 
   breadUnits = () => {
@@ -103,41 +103,82 @@ class Calculator extends React.Component {
     this.setState({loading: false});
   }
 
-  render() {
+  renderForegroundHeader = headerHeight => {
     return (
-      <View style={appStyles.stackLayout}>
-        <Button
-          icon={'microphone'}
-          mode={'contained'}
-          onPress={this.getData.bind(this)}>
-          Рассказать
-        </Button>
-
+      <View
+        style={{
+          height: headerHeight,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
         <Text style={styles.breadUnits}>{this.breadUnits().toFixed(2)} ХЕ</Text>
-
-        {this.state.loading && (
-          <ActivityIndicator
-            animating={this.state.loading}
-            color={Colors.red800}
-          />
-        )}
-        {!!this.props.selectedProducts.length && (
-          <FlatList
-            style={{paddingTop: 10}}
-            ItemSeparatorComponent={Divider}
-            keyExtractor={item => item.product.id.toString()}
-            data={this.props.selectedProducts}
-            showsVerticalScrollIndicator={false}
-            renderItem={({item, index}) => (
-              <SpeechProductListItem
-                item={item}
-                index={index}
-                navigation={this.props.navigation}
-              />
-            )}
-          />
-        )}
+        <Text style={styles.insulinText}>
+          Рекомендуемая доза инсулина: {this.breadUnits() * 1.5} ед.
+        </Text>
       </View>
+    );
+  };
+
+  renderStickyHeader = headerHeight => {
+    return (
+      <View
+        style={{
+          height: headerHeight,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingLeft: 10,
+          paddingRight: 10,
+        }}>
+        <Text style={[styles.breadUnits, {fontSize: 20, fontWeight: 'normal'}]}>
+          🍞 {this.breadUnits().toFixed(2)} ХЕ
+        </Text>
+        <Text style={[styles.insulinText, {fontSize: 20}]}>
+          💉 {this.breadUnits() * 1.5} ед.
+        </Text>
+      </View>
+    );
+  };
+
+  render() {
+    const foregroundHeaderHeight = 200,
+      stickyHeaderHeight = 50;
+    const {colors} = this.props.theme;
+    return (
+      <ParallaxScrollView
+        backgroundColor={colors.primary}
+        contentBackgroundColor={colors.background}
+        parallaxHeaderHeight={foregroundHeaderHeight}
+        stickyHeaderHeight={stickyHeaderHeight}
+        renderForeground={() =>
+          this.renderForegroundHeader(foregroundHeaderHeight)
+        }
+        renderStickyHeader={() => this.renderStickyHeader(stickyHeaderHeight)}>
+        <SafeAreaView style={{flex: 1}}>
+          {this.state.loading && (
+            <ActivityIndicator
+              animating={this.state.loading}
+              color={Colors.red800}
+            />
+          )}
+          {!!this.props.selectedProducts.length && (
+            <FlatList
+              style={{paddingTop: 10}}
+              ItemSeparatorComponent={Divider}
+              keyExtractor={item => item.product.id.toString()}
+              data={this.props.selectedProducts}
+              showsVerticalScrollIndicator={false}
+              renderItem={({item, index}) => (
+                <SpeechProductListItem
+                  item={item}
+                  index={index}
+                  navigation={this.props.navigation}
+                />
+              )}
+            />
+          )}
+        </SafeAreaView>
+      </ParallaxScrollView>
     );
   }
 }
@@ -156,7 +197,11 @@ const styles = StyleSheet.create({
   breadUnits: {
     fontSize: 26,
     fontWeight: 'bold',
-    textAlign: 'center',
+    color: '#fff',
+  },
+  insulinText: {
+    fontSize: 16,
+    color: '#fff',
   },
 });
 
@@ -167,9 +212,11 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    speechProductsFetched,
-  },
-)(Calculator);
+export default withTheme(
+  connect(
+    mapStateToProps,
+    {
+      speechProductsFetched,
+    },
+  )(Calculator),
+);
