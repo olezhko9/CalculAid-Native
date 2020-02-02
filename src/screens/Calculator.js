@@ -75,6 +75,7 @@ class Calculator extends React.Component {
     loading: false,
     speech:
       'Я съел 3 куска ржаного хлеба еще я съел десять чайных ложек варенного риса а еще выпил двести миллилитров апельсинного сока и еще выпил стакан козьего молока а еще я съел одно яблоко',
+    contentOffset: 0,
   };
 
   breadUnits = () => {
@@ -167,11 +168,16 @@ class Calculator extends React.Component {
 
   renderHeaderFAB = colors => {
     return (
-      <View style={{height: 30, flex: 1, flexDirection: 'column'}}>
-        <View style={{height: 30, backgroundColor: colors.primary, top: -2}} />
-        <View style={{height: 30}}>
+      <View style={{height: 35, flex: 1, flexDirection: 'column'}}>
+        <View style={{height: 35, backgroundColor: colors.primary, top: -5}} />
+        <View style={{height: 35}}>
           {/* listen button */}
-          <FAB icon="microphone" style={styles.headerFAB} onPress={() => {}} />
+          <FAB
+            icon="microphone"
+            visible={this.state.contentOffset < 100}
+            style={[styles.headerFAB]}
+            onPress={() => this.getData()}
+          />
         </View>
       </View>
     );
@@ -191,7 +197,10 @@ class Calculator extends React.Component {
           this.renderForegroundHeader(foregroundHeaderHeight, colors)
         }
         renderStickyHeader={() => this.renderStickyHeader(stickyHeaderHeight)}
-        renderContentBackground={() => this.renderHeaderFAB(colors)}>
+        renderContentBackground={() => this.renderHeaderFAB(colors)}
+        scrollEvent={event =>
+          this.setState({contentOffset: event.nativeEvent.contentOffset.y})
+        }>
         <SafeAreaView style={{flex: 1, paddingTop: 20, minHeight: 50}}>
           {this.state.loading && (
             <ActivityIndicator
@@ -232,6 +241,7 @@ class Calculator extends React.Component {
               previewOpenDelay={3000}
             />
           )}
+          <View style={{height: 50}} />
         </SafeAreaView>
       </ParallaxScrollView>
     );
@@ -257,7 +267,7 @@ const styles = StyleSheet.create({
   },
   headerFAB: {
     position: 'absolute',
-    top: -37,
+    top: -40,
     right: 35,
     margin: 8,
   },
