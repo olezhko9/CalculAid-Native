@@ -4,26 +4,64 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import CalcButton from './components/CalcButton';
 
 import Diary from './screens/Diary';
 import Settings from './screens/Settings';
 import Calculator from './screens/Calculator';
 import DetailedSpeechProduct from './screens/DetailedSpeechProduct';
 
-const CalculatorStackNavigator = createStackNavigator({
-  CalculatorStack: {
-    screen: Calculator,
+import CalcButton from './components/CalcButton';
+
+import theme from './styles/theme';
+
+const defaultStackNavigationOptions = {
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: theme.colors.primary,
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'normal',
+    },
   },
-  DetailedSpeechProduct: {
-    screen: DetailedSpeechProduct,
+};
+
+const DiaryStackNavigator = createStackNavigator(
+  {
+    Diary: {
+      screen: Diary,
+    },
   },
-});
+  {...defaultStackNavigationOptions},
+);
+
+const CalculatorStackNavigator = createStackNavigator(
+  {
+    CalculatorStack: {
+      screen: Calculator,
+    },
+    DetailedSpeechProduct: {
+      screen: DetailedSpeechProduct,
+    },
+  },
+  {
+    ...defaultStackNavigationOptions,
+  },
+);
+
+const SettingsStackNavigator = createStackNavigator(
+  {
+    Settings: {
+      screen: Settings,
+    },
+  },
+  {...defaultStackNavigationOptions},
+);
 
 const TabNavigator = createBottomTabNavigator(
   {
     Diary: {
-      screen: Diary,
+      screen: DiaryStackNavigator,
       navigationOptions: {
         tabBarIcon: () => <Icon name={'book'} size={24} />,
       },
@@ -35,9 +73,9 @@ const TabNavigator = createBottomTabNavigator(
       },
     },
     Settings: {
-      screen: Settings,
+      screen: SettingsStackNavigator,
       navigationOptions: {
-        tabBarIcon: () => <Icon name={'user'} size={24} />,
+        tabBarIcon: () => <Icon name={'cog'} size={24} />,
       },
     },
   },

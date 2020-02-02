@@ -7,6 +7,12 @@ import {connect} from 'react-redux';
 import {settingsUpdated} from '../store/actions';
 
 class Settings extends React.Component {
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: 'Настройки',
+    };
+  };
+
   onSettingsUpdated = settings => {
     this.props.settingsUpdated(settings);
   };

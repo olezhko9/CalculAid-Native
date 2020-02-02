@@ -22,10 +22,12 @@ const DismissKeyboard = ({children}) => (
   </TouchableWithoutFeedback>
 );
 
+const capitalize = text => text.charAt(0).toUpperCase() + text.slice(1);
+
 class DetailedSpeechProduct extends React.Component {
   static navigationOptions = ({navigation}) => {
     return {
-      title: navigation.getParam('title', 'Product name'),
+      title: capitalize(navigation.getParam('title', 'Product name')),
     };
   };
 
@@ -38,7 +40,7 @@ class DetailedSpeechProduct extends React.Component {
     };
 
     props.navigation.setParams({
-      title: props.selectedProducts[productIndex].product.name,
+      title: capitalize(props.selectedProducts[productIndex].product.name),
     });
   }
 
@@ -49,7 +51,7 @@ class DetailedSpeechProduct extends React.Component {
     );
 
     this.props.navigation.setParams({
-      title: product.name.toUpperCase(),
+      title: capitalize(product.name),
     });
   };
 
