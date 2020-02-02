@@ -167,9 +167,9 @@ class Calculator extends React.Component {
 
   renderHeaderFAB = colors => {
     return (
-      <View style={{height: 30}}>
-        <View style={{height: 30, backgroundColor: colors.primary}} />
-        <View style={{backgroundColor: colors.background}}>
+      <View style={{height: 30, flex: 1, flexDirection: 'column'}}>
+        <View style={{height: 30, backgroundColor: colors.primary, top: -2}} />
+        <View style={{height: 30}}>
           {/* listen button */}
           <FAB icon="microphone" style={styles.headerFAB} onPress={() => {}} />
         </View>
@@ -192,7 +192,7 @@ class Calculator extends React.Component {
         }
         renderStickyHeader={() => this.renderStickyHeader(stickyHeaderHeight)}
         renderContentBackground={() => this.renderHeaderFAB(colors)}>
-        <SafeAreaView style={{flex: 1, paddingTop: 25, minHeight: 50}}>
+        <SafeAreaView style={{flex: 1, paddingTop: 20, minHeight: 50}}>
           {this.state.loading && (
             <ActivityIndicator
               animating={this.state.loading}
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
   },
   headerFAB: {
     position: 'absolute',
-    top: -35,
+    top: -37,
     right: 35,
     margin: 8,
   },
