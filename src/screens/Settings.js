@@ -1,10 +1,27 @@
 import * as React from 'react';
 import {StyleSheet, SafeAreaView, View, Text} from 'react-native';
+import FontistoIcon from 'react-native-vector-icons/Fontisto';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import {List} from 'react-native-paper';
 import {Input} from 'native-base';
 
 import {connect} from 'react-redux';
 import {settingsUpdated} from '../store/actions';
+
+const SettingIcon = props => {
+  let Icon = null;
+  if (props.type === 'FontAwesome5') {
+    Icon = <FontAwesomeIcon {...props} size={20} />;
+  } else if (props.type === 'FontistoIcon') {
+    Icon = <FontistoIcon {...props} size={20} />;
+  }
+  return (
+    <View
+      style={{paddingLeft: 10, justifyContent: 'center', alignItems: 'center'}}>
+      {Icon}
+    </View>
+  );
+};
 
 class Settings extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -25,9 +42,15 @@ class Settings extends React.Component {
           <List.Subheader>Коэффициенты</List.Subheader>
           <List.Item
             title="Углеводов в ХЕ"
-            left={props => <List.Icon {...props} icon="folder" />}
+            left={props => (
+              <SettingIcon
+                {...props}
+                type={'FontAwesome5'}
+                name={'bread-slice'}
+              />
+            )}
             right={() => (
-              <View style={{flexDirection: 'row', minWidth: 150}}>
+              <View style={styles.settingEdit}>
                 <Input
                   value={settings.carbonPerBU}
                   style={{textAlign: 'right'}}
@@ -41,9 +64,15 @@ class Settings extends React.Component {
           />
           <List.Item
             title="Инсулина на 1ХЕ"
-            left={props => <List.Icon {...props} icon="folder" />}
+            left={props => (
+              <SettingIcon
+                {...props}
+                type={'FontistoIcon'}
+                name={'injection-syringe'}
+              />
+            )}
             right={() => (
-              <View style={{flexDirection: 'row', minWidth: 150}}>
+              <View style={styles.settingEdit}>
                 <Input
                   value={settings.insulinPerBU}
                   style={{textAlign: 'right'}}
@@ -60,9 +89,15 @@ class Settings extends React.Component {
           <List.Subheader>Сахар</List.Subheader>
           <List.Item
             title="Низкий сахар"
-            left={props => <List.Icon {...props} icon="folder" />}
+            left={props => (
+              <SettingIcon
+                {...props}
+                type={'FontistoIcon'}
+                name={'blood-drop'}
+              />
+            )}
             right={() => (
-              <View style={{flexDirection: 'row', minWidth: 150}}>
+              <View style={styles.settingEdit}>
                 <Input
                   value={settings.minSugar}
                   style={{textAlign: 'right'}}
@@ -76,9 +111,15 @@ class Settings extends React.Component {
           />
           <List.Item
             title="Высокий сахар"
-            left={props => <List.Icon {...props} icon="folder" />}
+            left={props => (
+              <SettingIcon
+                {...props}
+                type={'FontistoIcon'}
+                name={'blood-drop'}
+              />
+            )}
             right={() => (
-              <View style={{flexDirection: 'row', minWidth: 150}}>
+              <View style={styles.settingEdit}>
                 <Input
                   value={settings.maxSugar}
                   style={{textAlign: 'right'}}
@@ -95,6 +136,14 @@ class Settings extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  settingEdit: {
+    flexDirection: 'row',
+    minWidth: 150,
+    paddingRight: 10,
+  },
+});
 
 const mapStateToProps = state => {
   return {
