@@ -9,12 +9,12 @@ import {Item, Picker} from 'native-base';
 import {Chip, Button, TextInput} from 'react-native-paper';
 import {connect} from 'react-redux';
 
-import appStyles from '../styles/main';
+import appStyles from '../../styles/main';
 import {
   selectedProductChanged,
   productAmountChanged,
   productMeasureChanged,
-} from '../store/actions';
+} from '../../store/actions';
 
 const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -99,7 +99,7 @@ class DetailedSpeechProduct extends React.Component {
               </Picker>
             </Item>
 
-            <View style={[appStyles.row]}>
+            <View style={[appStyles.row, {paddingTop: 15}]}>
               <Chip style={[appStyles.pfcChip]} textStyle={{color: '#fff'}}>
                 {`Б: ${
                   this.props.selectedProducts[this.state.productIndex].product
@@ -132,7 +132,7 @@ class DetailedSpeechProduct extends React.Component {
               />
             </View>
 
-            <View style={[appStyles.row, {justifyContent: 'space-between'}]}>
+            <View style={[appStyles.row, {justifyContent: 'space-between', paddingTop: 15}]}>
               {[-100, -10, -1, 1, 10, 100].map(value => (
                 <Button
                   compact

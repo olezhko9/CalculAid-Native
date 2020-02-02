@@ -12,7 +12,6 @@ const appStyles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    paddingTop: 10,
   },
   column: {
     flexDirection: 'column',

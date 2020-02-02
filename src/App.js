@@ -5,11 +5,11 @@ import {createStackNavigator} from 'react-navigation-stack';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import Diary from './screens/Diary';
-import DiaryRecord from './screens/DiaryRecord';
-import Settings from './screens/Settings';
-import Calculator from './screens/Calculator';
-import DetailedSpeechProduct from './screens/DetailedSpeechProduct';
+import Diary from './screens/Diary/Diary';
+import DiaryRecord from './screens/Diary/DiaryRecord';
+import Settings from './screens/Settings/Settings';
+import Calculator from './screens/Calculator/Calculator';
+import DetailedSpeechProduct from './screens/Calculator/DetailedSpeechProduct';
 
 import CalcButton from './components/CalcButton';
 
@@ -73,12 +73,24 @@ const TabNavigator = createBottomTabNavigator(
         tabBarIcon: () => <Icon name={'book'} size={24} />,
       },
     },
+    // Products: {
+    //   screen: DiaryStackNavigator,
+    //   navigationOptions: {
+    //     tabBarIcon: () => <Icon name={'hamburger'} size={24} />,
+    //   },
+    // },
     Calculator: {
       screen: CalculatorStackNavigator,
       navigationOptions: {
         tabBarIcon: <CalcButton />,
       },
     },
+    // Stat: {
+    //   screen: DiaryStackNavigator,
+    //   navigationOptions: {
+    //     tabBarIcon: () => <Icon name={'chart-bar'} size={24} />,
+    //   },
+    // },
     Settings: {
       screen: SettingsStackNavigator,
       navigationOptions: {

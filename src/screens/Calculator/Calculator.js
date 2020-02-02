@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {speechProductsFetched, productRemoved} from '../store/actions';
+import {speechProductsFetched, productRemoved} from '../../store/actions';
 import axios from 'axios';
 
 import {StyleSheet, View, SafeAreaView, TouchableOpacity} from 'react-native';
@@ -8,63 +8,13 @@ import {
   withTheme,
   ActivityIndicator,
   Divider,
-  List,
   Text,
-  Chip,
-  IconButton,
   FAB,
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {SwipeListView} from 'react-native-swipe-list-view';
-
-import appStyles from '../styles/main';
-import theme from '../styles/theme';
-
-const SpeechProductListItem = ({item, index, navigation, colors}) => {
-  const {navigate} = navigation;
-  return (
-    <List.Item
-      title={
-        item.product.name.charAt(0).toUpperCase() + item.product.name.slice(1)
-      }
-      titleNumberOfLines={2}
-      titleStyle={{fontWeight: 'bold', fontSize: 18}}
-      style={{backgroundColor: theme.colors.background}}
-      description={() => (
-        <View>
-          <View style={[styles.row, {paddingTop: 8}]}>
-            <Text>{`Количество: ${item.amount} ${
-              item.product.measure.name
-            }`}</Text>
-          </View>
-          <View style={[styles.row, {paddingTop: 8}]}>
-            <Chip style={[appStyles.pfcChip]} textStyle={{color: '#fff'}}>
-              {`Б: ${item.product.pfc.p}`}
-            </Chip>
-            <Chip style={[appStyles.pfcChip]} textStyle={{color: '#fff'}}>
-              {`Ж: ${item.product.pfc.f}`}
-            </Chip>
-            <Chip style={[appStyles.pfcChip]} textStyle={{color: '#fff'}}>
-              {`У: ${item.product.pfc.c}`}
-            </Chip>
-          </View>
-        </View>
-      )}
-      right={() => (
-        <View style={[styles.column, {justifyContent: 'center'}]}>
-          <IconButton icon={'chevron-right'} />
-        </View>
-      )}
-      onPress={() =>
-        navigate('DetailedSpeechProduct', {
-          changeProductIndex: index,
-        })
-      }
-      onLongPress={() => {}}
-    />
-  );
-};
+import SpeechProductListItem from '../../components/Calculator/SpeechProductListItem';
 
 class Calculator extends React.Component {
   static navigationOptions = {
@@ -249,13 +199,6 @@ class Calculator extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  column: {
-    flexDirection: 'column',
-  },
   breadUnitsText: {
     fontSize: 30,
     fontWeight: 'bold',

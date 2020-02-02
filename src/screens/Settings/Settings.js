@@ -1,12 +1,12 @@
 import * as React from 'react';
+import {connect} from 'react-redux';
+import {settingsUpdated} from '../../store/actions';
+
 import {StyleSheet, SafeAreaView, View, Text} from 'react-native';
-import FontistoIcon from 'react-native-vector-icons/Fontisto';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import {List} from 'react-native-paper';
 import {Input} from 'native-base';
-
-import {connect} from 'react-redux';
-import {settingsUpdated} from '../store/actions';
+import FontistoIcon from 'react-native-vector-icons/Fontisto';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 
 const SettingIcon = props => {
   let Icon = null;
@@ -35,7 +35,7 @@ class Settings extends React.Component {
   };
 
   render() {
-    const {navigation, settings} = this.props;
+    const {settings} = this.props;
     return (
       <SafeAreaView>
         <List.Section>

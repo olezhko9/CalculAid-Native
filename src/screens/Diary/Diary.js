@@ -1,12 +1,13 @@
 import React from 'react';
+
 import {StyleSheet, View} from 'react-native';
 import {Container} from 'native-base';
 import {Card, IconButton, Text} from 'react-native-paper';
 import FontistoIcon from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import appStyles from '../styles/main';
-import theme from '../styles/theme';
+import appStyles from '../../styles/main';
+import theme from '../../styles/theme';
 
 export default class Diary extends React.Component {
   static navigationOptions = ({navigation}) => {
