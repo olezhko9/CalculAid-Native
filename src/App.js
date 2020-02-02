@@ -6,6 +6,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Diary from './screens/Diary';
+import DiaryRecord from './screens/DiaryRecord';
 import Settings from './screens/Settings';
 import Calculator from './screens/Calculator';
 import DetailedSpeechProduct from './screens/DetailedSpeechProduct';
@@ -18,6 +19,9 @@ const defaultStackNavigationOptions = {
   defaultNavigationOptions: {
     headerStyle: {
       backgroundColor: theme.colors.primary,
+      elevation: 0,
+      shadowOpacity: 0,
+      borderBottomWidth: 0,
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
@@ -30,6 +34,9 @@ const DiaryStackNavigator = createStackNavigator(
   {
     Diary: {
       screen: Diary,
+    },
+    DiaryRecord: {
+      screen: DiaryRecord,
     },
   },
   {...defaultStackNavigationOptions},
