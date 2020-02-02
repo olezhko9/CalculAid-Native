@@ -2,10 +2,10 @@ import * as React from 'react';
 import {
   StyleSheet,
   View,
-  Picker,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
+import {Item, Picker} from 'native-base';
 import {Chip, Button, TextInput} from 'react-native-paper';
 import {connect} from 'react-redux';
 
@@ -81,19 +81,23 @@ class DetailedSpeechProduct extends React.Component {
       return (
         <DismissKeyboard>
           <View style={appStyles.stackLayout}>
-            <Picker
-              selectedValue={
-                this.props.selectedProducts[this.state.productIndex].product
-              }
-              onValueChange={product => this.onProductChanged(product)}>
-              {this.state.productsData.products.map(product => (
-                <Picker.Item
-                  key={product.id}
-                  label={product.name}
-                  value={product}
-                />
-              ))}
-            </Picker>
+            <Item picker>
+              <Picker
+                mode={'dropdown'}
+                selectedValue={
+                  this.props.selectedProducts[this.state.productIndex].product
+                }
+                style={{textDecoration: 'underline'}}
+                onValueChange={product => this.onProductChanged(product)}>
+                {this.state.productsData.products.map(product => (
+                  <Picker.Item
+                    key={product.id}
+                    label={product.name}
+                    value={product}
+                  />
+                ))}
+              </Picker>
+            </Item>
 
             <View style={[appStyles.row]}>
               <Chip style={[appStyles.pfcChip]} textStyle={{color: '#fff'}}>
@@ -141,22 +145,25 @@ class DetailedSpeechProduct extends React.Component {
               ))}
             </View>
 
-            <Picker
-              selectedValue={
-                this.props.selectedProducts[this.state.productIndex].product
-                  .measure
-              }
-              onValueChange={measure => this.onMeasureChanged(measure)}>
-              {this.props.selectedProducts[
-                this.state.productIndex
-              ].product.measures.map(measure => (
-                <Picker.Item
-                  key={measure.id}
-                  label={measure.name}
-                  value={measure}
-                />
-              ))}
-            </Picker>
+            <Item picker>
+              <Picker
+                mode={'dropdown'}
+                selectedValue={
+                  this.props.selectedProducts[this.state.productIndex].product
+                    .measure
+                }
+                onValueChange={measure => this.onMeasureChanged(measure)}>
+                {this.props.selectedProducts[
+                  this.state.productIndex
+                ].product.measures.map(measure => (
+                  <Picker.Item
+                    key={measure.id}
+                    label={measure.name}
+                    value={measure}
+                  />
+                ))}
+              </Picker>
+            </Item>
           </View>
         </DismissKeyboard>
       );
