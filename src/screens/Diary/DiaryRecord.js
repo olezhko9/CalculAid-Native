@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Container} from 'native-base';
-import {Text} from 'react-native-paper';
+import BloodSugar from '../../components/Diary/BloodSugar';
 
 import appStyles from '../../styles/main';
 
@@ -13,9 +13,11 @@ export default class DiaryRecord extends React.Component {
   };
 
   render() {
+    const type = this.props.navigation.getParam('type', 'bloodSugar');
+
     return (
-      <Container style={appStyles.stackLayout}>
-        <Text>Create new record</Text>
+      <Container style={[appStyles.stackLayout, {backgroundColor: '#efefef'}]}>
+        <BloodSugar />
       </Container>
     );
   }

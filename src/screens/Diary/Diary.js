@@ -39,7 +39,7 @@ export default class Diary extends React.Component {
                 )}
                 style={styles.btn}
                 color={'#fff'}
-                onPress={() => navigate('DiaryRecord')}
+                onPress={() => navigate('DiaryRecord', {type: 'breadUnits'})}
               />
               <IconButton
                 icon={props => (
@@ -47,7 +47,7 @@ export default class Diary extends React.Component {
                 )}
                 style={[styles.btn, {width: 70, height: 70}]}
                 color={'#fff'}
-                onPress={() => navigate('DiaryRecord')}
+                onPress={() => navigate('DiaryRecord', {type: 'bloodSugar'})}
               />
               <IconButton
                 icon={props => (
@@ -59,7 +59,7 @@ export default class Diary extends React.Component {
                 )}
                 style={styles.btn}
                 color={'#fff'}
-                onPress={() => navigate('DiaryRecord')}
+                onPress={() => navigate('DiaryRecord', {type: 'insulin'})}
               />
             </View>
           </Card.Content>

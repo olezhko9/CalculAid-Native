@@ -20,6 +20,14 @@ const appStyles = StyleSheet.create({
     marginRight: 16,
     backgroundColor: colors.primary,
   },
+  titleIcon: {
+    borderRadius: 50,
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.colors.primary,
+  },
 });
 
 export default appStyles;
