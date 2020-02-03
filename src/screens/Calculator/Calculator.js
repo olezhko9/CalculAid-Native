@@ -29,7 +29,6 @@ class Calculator extends React.Component {
   };
 
   breadUnits = () => {
-    const settings = this.props.settings;
     const {selectedProducts} = this.props;
     let bu = 0;
     if (selectedProducts.length) {
@@ -43,7 +42,7 @@ class Calculator extends React.Component {
         }
       }
     }
-    return (bu / settings.carbonPerBU) * settings.insulinPerBU;
+    return bu / this.props.settings.carbonPerBU;
   };
 
   componentDidMount() {
@@ -87,7 +86,7 @@ class Calculator extends React.Component {
           </Text>
           <Text style={styles.insulinText}>
             {'Рекомендуемая доза инсулина: '}
-            {(this.breadUnits() * 1.5).toFixed(2)} ед.
+            {(this.breadUnits() * this.props.settings.insulinPerBU).toFixed(2)} ед.
           </Text>
         </View>
       </View>
@@ -110,7 +109,7 @@ class Calculator extends React.Component {
           🍞 {this.breadUnits().toFixed(2)} ХЕ
         </Text>
         <Text style={[styles.insulinText, {fontSize: 20}]}>
-          💉 {(this.breadUnits() * 1.5).toFixed(2)} ед.
+          💉 {(this.breadUnits() * this.props.settings.insulinPerBU).toFixed(2)} ед.
         </Text>
       </View>
     );
