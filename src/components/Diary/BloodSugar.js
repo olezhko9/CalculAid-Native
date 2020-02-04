@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Card, IconButton, Text} from 'react-native-paper';
+import {Input, Item} from 'native-base';
 import FontistoIcon from 'react-native-vector-icons/Fontisto';
 import TickSlider from '../TickSlider';
 
@@ -10,8 +11,9 @@ import appStyles from '../../styles/main';
 
 class BloodSugar extends Component {
   state = {
-    bloodSugarWhole: 0,
+    bloodSugarWhole: 0.0,
     bloodSugarFrac: 0.0,
+    bloodSugar: '0.0',
     wholeMarks: [...new Array(11)].map((_, i) => ({
       name: i * 2,
       value: i * 2,
@@ -22,7 +24,35 @@ class BloodSugar extends Component {
     })),
   };
 
+  onBloodSugarValueChanged = async value => {
+    if (value !== undefined) {
+      const re = /^\d{0,2}\.*\d?$/;
+
+      if (value.length === 0) {
+        this.setState({
+          bloodSugar: value,
+          bloodSugarWhole: 0,
+          bloodSugarFrac: 0,
+        });
+      } else if (re.test(value)) {
+        const nums = value.split('.');
+        this.setState({
+          bloodSugar: value,
+          bloodSugarWhole: +nums[0],
+          bloodSugarFrac: nums[1] ? +nums[1] / 10 : 0,
+        });
+      }
+    } else {
+      await this.setState({
+        bloodSugar: String(
+          this.state.bloodSugarWhole + this.state.bloodSugarFrac,
+        ),
+      });
+    }
+  };
+
   render() {
+    const maxSugar = 20;
     return (
       <Card style={{marginBottom: 10}}>
         <Card.Title
@@ -38,21 +68,37 @@ class BloodSugar extends Component {
           )}
         />
         <Card.Content>
-          <Text style={[styles.bloodSugarText]}>
-            {(this.state.bloodSugarWhole + this.state.bloodSugarFrac).toFixed(1)}
-            {' ммоль/л'}
-          </Text>
+          <View style={[appStyles.row, {justifyContent: 'center', height: 50}]}>
+            <View inlineLabel style={{width: 70}}>
+              <Input
+                keyboardType={'decimal-pad'}
+                value={this.state.bloodSugar}
+                style={{fontSize: 24, textAlign: 'center'}}
+                onChangeText={text => this.onBloodSugarValueChanged(text)}
+              />
+            </View>
+            <Text style={[styles.bloodSugarText]}>{'ммоль/л'}</Text>
+          </View>
           <TickSlider
+            value={
+              this.state.bloodSugarWhole <= maxSugar
+                ? this.state.bloodSugarWhole
+                : maxSugar
+            }
             step={1}
             min={0}
-            max={20}
+            max={maxSugar}
             marks={this.state.wholeMarks}
             thumbTintColor={theme.colors.primary}
             minimumTrackTintColor={theme.colors.primary}
             maximumTrackTintColor={'#999'}
-            onChange={value => this.setState({bloodSugarWhole: value})}
+            onChange={async value => {
+              await this.setState({bloodSugarWhole: value});
+              this.onBloodSugarValueChanged();
+            }}
           />
           <TickSlider
+            value={this.state.bloodSugarFrac}
             step={0.1}
             min={0.0}
             max={0.9}
@@ -60,7 +106,10 @@ class BloodSugar extends Component {
             thumbTintColor={theme.colors.primary}
             minimumTrackTintColor={theme.colors.primary}
             maximumTrackTintColor={'#999'}
-            onChange={value => this.setState({bloodSugarFrac: value})}
+            onChange={async value => {
+              await this.setState({bloodSugarFrac: value});
+              this.onBloodSugarValueChanged();
+            }}
           />
         </Card.Content>
       </Card>
@@ -71,7 +120,7 @@ class BloodSugar extends Component {
 const styles = StyleSheet.create({
   bloodSugarText: {
     textAlign: 'center',
-    marginBottom: 15,
+    // marginBottom: 15,
     fontSize: 24,
   },
 });
