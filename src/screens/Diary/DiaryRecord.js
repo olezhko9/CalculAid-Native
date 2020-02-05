@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {Container} from 'native-base';
+import RecordTimePicker from '../../components/Diary/RecordTimePicker';
 import BloodSugar from '../../components/Diary/BloodSugar';
 
 import appStyles from '../../styles/main';
@@ -17,6 +18,7 @@ export default class DiaryRecord extends React.Component {
 
     return (
       <Container style={[appStyles.stackLayout, {backgroundColor: '#efefef'}]}>
+        <RecordTimePicker />
         <BloodSugar />
       </Container>
     );
