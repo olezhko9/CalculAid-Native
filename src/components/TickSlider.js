@@ -58,6 +58,12 @@ export default class MarkedSlider extends React.PureComponent {
     this.setState({width: e.layout.width});
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.value !== prevProps.value) {
+      this.setState({value: this.props.value});
+    }
+  }
+
   onChange = value => {
     const {onChange} = this.props;
     this.setState({

@@ -45,7 +45,7 @@ class BloodSugar extends Component {
     } else {
       await this.setState({
         bloodSugar: String(
-          this.state.bloodSugarWhole + this.state.bloodSugarFrac,
+          this.state.bloodSugarWhole + +this.state.bloodSugarFrac.toFixed(1),
         ),
       });
     }
