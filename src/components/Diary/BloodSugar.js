@@ -20,7 +20,7 @@ class BloodSugar extends Component {
     })),
     fracMarks: [...new Array(10)].map((_, i) => ({
       name: Math.floor(i * 0.1 * 10) / 10,
-      value: i * 0.1,
+      value: i,
     })),
   };
 
@@ -45,7 +45,7 @@ class BloodSugar extends Component {
     } else {
       await this.setState({
         bloodSugar: String(
-          this.state.bloodSugarWhole + +this.state.bloodSugarFrac.toFixed(1),
+          this.state.bloodSugarWhole + this.state.bloodSugarFrac,
         ),
       });
     }
@@ -98,16 +98,16 @@ class BloodSugar extends Component {
             }}
           />
           <TickSlider
-            value={this.state.bloodSugarFrac}
-            step={0.1}
-            min={0.0}
-            max={0.9}
+            value={this.state.bloodSugarFrac * 10}
+            step={1}
+            min={0}
+            max={9}
             marks={this.state.fracMarks}
             thumbTintColor={theme.colors.primary}
             minimumTrackTintColor={theme.colors.primary}
             maximumTrackTintColor={'#999'}
             onChange={async value => {
-              await this.setState({bloodSugarFrac: value});
+              await this.setState({bloodSugarFrac: value / 10});
               this.onBloodSugarValueChanged();
             }}
           />
