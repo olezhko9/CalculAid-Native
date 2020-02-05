@@ -12,6 +12,7 @@ const appStyles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   column: {
     flexDirection: 'column',

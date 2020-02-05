@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 import {StyleSheet, View} from 'react-native';
 import {Card, IconButton, Text} from 'react-native-paper';
-import {Input, Item} from 'native-base';
+import {Input, Icon} from 'native-base';
 import FontistoIcon from 'react-native-vector-icons/Fontisto';
 import TickSlider from '../TickSlider';
 
@@ -53,6 +54,19 @@ class BloodSugar extends Component {
 
   render() {
     const maxSugar = 20;
+
+    let dangerText = '';
+    const bloodSugar = parseFloat(this.state.bloodSugar);
+    if (bloodSugar !== 0) {
+      if (bloodSugar <= this.props.settings.minSugar) {
+        dangerText = 'У Вас гипогликемия';
+      } else if (bloodSugar >= this.props.settings.maxSugar) {
+        dangerText = 'У Вас гипергликемия';
+      } else {
+        dangerText = '';
+      }
+    }
+
     return (
       <Card style={{marginBottom: 10}}>
         <Card.Title
@@ -118,6 +132,16 @@ class BloodSugar extends Component {
               this.onBloodSugarValueChanged();
             }}
           />
+          {!!dangerText.length && (
+            <View style={[appStyles.row, {marginLeft: 10}]}>
+              <Icon
+                type={'FontAwesome'}
+                name={'warning'}
+                style={{color: theme.colors.danger, fontSize: 22}}
+              />
+              <Text style={styles.dangerText}>{dangerText}</Text>
+            </View>
+          )}
         </Card.Content>
       </Card>
     );
@@ -129,6 +153,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 22,
   },
+  dangerText: {
+    color: theme.colors.danger,
+    marginLeft: 10,
+  },
 });
 
-export default BloodSugar;
+const mapStateToProps = state => {
+  return {
+    settings: state.settings,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null,
+)(BloodSugar);
