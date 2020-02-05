@@ -68,12 +68,19 @@ class BloodSugar extends Component {
           )}
         />
         <Card.Content>
-          <View style={[appStyles.row, {justifyContent: 'center', height: 50}]}>
-            <View inlineLabel style={{width: 70}}>
+          <View
+            style={[
+              appStyles.row,
+              {justifyContent: 'center', marginBottom: 10},
+            ]}>
+            <View inlineLabel style={{width: 65}}>
               <Input
                 keyboardType={'decimal-pad'}
                 value={this.state.bloodSugar}
-                style={{fontSize: 24, textAlign: 'center'}}
+                style={[
+                  appStyles.editUnderline,
+                  {fontSize: 24, textAlign: 'center', paddingVertical: 0},
+                ]}
                 onChangeText={text => this.onBloodSugarValueChanged(text)}
               />
             </View>
@@ -120,8 +127,7 @@ class BloodSugar extends Component {
 const styles = StyleSheet.create({
   bloodSugarText: {
     textAlign: 'center',
-    // marginBottom: 15,
-    fontSize: 24,
+    fontSize: 22,
   },
 });
 

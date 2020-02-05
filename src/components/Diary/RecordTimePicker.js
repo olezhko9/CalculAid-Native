@@ -3,8 +3,7 @@ import moment from 'moment';
 import ruLocale from 'moment/locale/ru';
 moment.locale('ru', ruLocale);
 
-import {View, Button} from 'react-native';
-import {Text} from 'native-base';
+import {View, Text, StyleSheet} from 'react-native';
 import {Card, IconButton} from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -48,7 +47,6 @@ class RecordTimePicker extends Component {
 
   render() {
     const {show, mode, fullDate, date, time} = this.state;
-    console.log(moment(fullDate).format('LL'));
     return (
       <Card style={{marginBottom: 10}}>
         <Card.Title
@@ -63,8 +61,17 @@ class RecordTimePicker extends Component {
         />
         <Card.Content>
           <View style={[appStyles.row, {justifyContent: 'center'}]}>
-            <Text onPress={this.showDatepicker}>{date} в </Text>
-            <Text onPress={this.showTimepicker}>{time}</Text>
+            <Text
+              onPress={this.showDatepicker}
+              style={[styles.timeText, appStyles.editUnderline]}>
+              {date}
+            </Text>
+            <Text style={[styles.timeText]}> в </Text>
+            <Text
+              onPress={this.showTimepicker}
+              style={[styles.timeText, appStyles.editUnderline]}>
+              {time}
+            </Text>
           </View>
           {show && (
             <DateTimePicker
@@ -81,5 +88,11 @@ class RecordTimePicker extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  timeText: {
+    fontSize: 20,
+  },
+});
 
 export default RecordTimePicker;

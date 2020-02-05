@@ -28,6 +28,10 @@ const appStyles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: theme.colors.primary,
   },
+  editUnderline: {
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.primary,
+  },
 });
 
 export default appStyles;
